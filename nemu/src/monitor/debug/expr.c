@@ -192,7 +192,19 @@ uint32_t eval(int p,int q){
 			sscanf(tokens[p].str,"%x",&result);
 		else if(tokens[p].type == TK_DEC)
 			sscanf(tokens[p].str,"%d",&result);
-		else assert(0);
+		else if(tokens[p].type == TK_REG){
+            char tmp[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
+            int i;
+			for( i=0;i<8;i++)
+                if(!strcmp(tmp,regsl[i])){return cpu.gpr[i]._32;}
+            for( i=0;i<8;i++)
+                if(!strcmp(tmp,regsw[i])){return cpu.gpr[i]._16;}
+            for( i=0;i<8;i++) 
+                if(!strcmp(tmp,regsb[i])){return cpu.gpr[i%4]._8[i/4];}
+	    	char teip[3]="eip";
+	    	if(strcmp(tmp,teip))return cpu.eip;
+        }
+        else assert(0);
 		return result;
     }
     else if(check_parentheses(p,q) == true){
@@ -295,7 +307,22 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
-	return 0;
+	if(nr_token!=1){  //只有一个符号时没必要区分
+		int i;
+    	for( i=0;i<nr_token;i++)  //负号的判断 当其为第一个符号，或左边为(时,或按照讲义左边可能为负号(--1)
+        {
+				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == '('||tokens[i-1].type == TK_NEG
+                                                                 ||tokens[i-1].type == '-'
+                                                                 ||tokens[i-1].type == '+'
+                                                                 ||tokens[i-1].type == '*'
+                                                                 ||tokens[i-1].type == '/'))
+				tokens[i].type = TK_NEG;
+		}
+
+    	for(i=0;i<nr_token;i++)
+        	if(tokens[i].type == '*' &&(i==0||(tokens[i-1].type!=TK_DEC && tokens[i-1].type!=TK_HEX && tokens[i-1].type!=')')))
+               tokens[i].type = TK_POI;
+	}
+  return eval(0, nr_token-1);
 }
 
