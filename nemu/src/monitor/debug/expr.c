@@ -75,6 +75,7 @@ char *deleteSpaceInString(char *str){
 			p++;
 		}
 		str[i]='\0';
+		printf("after delete space, expression is %s\n",p);
 		return p;
 }
 /* Rules are used for many times.
