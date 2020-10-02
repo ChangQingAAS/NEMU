@@ -65,19 +65,20 @@ static struct rule {
 
 static regex_t re[NR_REGEX];
 
-char *deleteSpaceInString(char *str){
-		char *p=str;
-		int i=0;
-		while(*p)
-		{
-			if(*p!=' ')
-			str[i++] = *p;
-			p++;
-		}
-		str[i]='\0';
-		printf("after delete space, expression is %s\n",p);
-		return p;
-}
+// char *deleteSpaceInString(char *str){
+// 		char *p=str;
+// 		int i=0;
+// 		while(*p)
+// 		{
+// 			if(*p!=' ')
+// 			str[i++] = *p;
+// 			p++;
+// 		}
+// 		str[i]='\0';
+// 		printf("after delete space, expression is %s\n",p);
+// 		return p;
+// }
+
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
  */
@@ -111,7 +112,6 @@ static bool make_token(char *e) {
 	
 	nr_token = 0;
 
-	e = deleteSpaceInString(e);
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
