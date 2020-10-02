@@ -15,14 +15,12 @@ enum {
  	TK_NEG,      //-代表负数
   	TK_POI,       //指针解引用
   	TK_LS, TK_RS, TK_BOE, TK_LOE
-
 };
 
 static struct rule {
 	char *regex;
 	int token_type;
 } rules[] = {
-
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level优先级 of different rules.
 	 */
@@ -67,6 +65,18 @@ static struct rule {
 
 static regex_t re[NR_REGEX];
 
+char *deleteSpaceInString(char *str){
+		char *p=str;
+		int i=0;
+		while(*p)
+		{
+			if(*p!=' ')
+			str[i++] = *p;
+			p++;
+		}
+		str[i]='\0';
+		return p;
+}
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
  */
@@ -92,6 +102,7 @@ typedef struct token {
 Token tokens[32];
 int nr_token;//已识别出的token数量
 
+
 static bool make_token(char *e) {
 	int position = 0;
 	int i;
@@ -99,6 +110,7 @@ static bool make_token(char *e) {
 	
 	nr_token = 0;
 
+	e = deleteSpaceInString(e);
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
@@ -172,7 +184,7 @@ bool check_parentheses(int p, int q){
 		return false;
 	}
 	else{
-		printf("The whole expression isn't surrounded by a pair of bracket!\n");
+		// printf("The whole expression isn't surrounded by a pair of bracket!\n");
 		return false;
 	}
 }
