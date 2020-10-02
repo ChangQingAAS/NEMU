@@ -63,7 +63,7 @@ static struct {
 
 static int cmd_help(char *args) {
         /* extract the first argument */
-        char *arg = strtok(NULL, " ");
+        char *arg = strtok(NULL, " ");//第一次用参数，第二次用NULL
         int i;
 
         if(arg == NULL) {
@@ -123,7 +123,7 @@ static int cmd_si(char *args){
         if(args == NULL|| !(args[0]>='0'&&args[0]<='9')){
                 args = "1";
         }
-        int singleStepRunNum = atoi(args);
+        int singleStepRunNum = atoi(args);//atoi字符转数字
         printf("%-10d\n",singleStepRunNum);
         int i;
         for(i = 0; i<singleStepRunNum;i++)
@@ -134,7 +134,6 @@ static int cmd_si(char *args){
 
 static int cmd_x(char *args) {
         int N;
-        char* expr0;
         char *arg = strtok(NULL, " ");
         if(arg == NULL)
         {
@@ -144,22 +143,21 @@ static int cmd_x(char *args) {
         N = atoi(arg);
         if(N==0){
                 printf("Unknown command '%s'\n",arg);
-                return 0;  //N=0时可能不是数字
+                return 0;  //N=0时无法输出
         }
-        printf("%d\n",N);
+        printf("%d\n",N);//测试能否输出N
 
-        expr0 = strtok(NULL, " ");
-        // expr0 
+		char* expr0 = strtok(NULL, " ");
         if(expr0 == NULL)
         {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-         printf("%s\n",expr);
+         printf("%s\n",expr);//测试能否输出expr
 
         bool *success=false;
-        // // vaddr_t addr = expr(expr0,success);
-        vaddr_t addr = expr0;
+        vaddr_t addr = expr(expr0,success);
+        // vaddr_t addr = expr0;
         int i;
         for( i=0;i<N;i++)
         {

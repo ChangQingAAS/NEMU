@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ
+	//NOTYPE = 256, EQ
 
 	/* TODO: Add more token types */
 	TK_NOTYPE = 256, TK_HEX, TK_DEC, TK_REG, TK_EQ, TK_NEQ, 
@@ -31,7 +31,7 @@ static struct rule {
 	//{"\\+", '+'},					// plus
 	//{"==", EQ}						// equal
 
-	
+	{" +", TK_NOTYPE},    // spaces
   	{"0x[0-9A-Fa-f][0-9A-Fa-f]*", TK_HEX},
   	{"0|[1-9][0-9]*", TK_DEC},
   	{"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TK_REG},
@@ -41,14 +41,18 @@ static struct rule {
   	{"-", '-'},          
   	{"\\*", '*'},
   	{"\\/", '/'},
+
   	{"\\(", '('},
   	{"\\)", ')'},
-	{" +", TK_NOTYPE},    // spaces
+	
   	{"==", TK_EQ},         
   	{"!=", TK_NEQ},
+
 	{"&&", TK_AND},
   	{"\\|\\|", TK_OR},
+	//where is TK_NEG fushu
   	{"!", '!'},
+
   	// 注意前缀问题 >=识别应在>前面 
   	// 类似的 十进制和十六进制位置
   	{"<<", TK_LS},
@@ -86,7 +90,7 @@ typedef struct token {
 } Token;
 
 Token tokens[32];
-int nr_token;
+int nr_token;//已识别出的token数量
 
 static bool make_token(char *e) {
 	int position = 0;
@@ -110,10 +114,22 @@ static bool make_token(char *e) {
 				 * of tokens, some extra actions should be performed.
 				 */
 
-				switch(rules[i].token_type) {
-					default: panic("please implement me");
-				}
+				// switch(rules[i].token_type) {
+				// 	default: panic("please implement me");
+				// }
 
+				//i以取出，不需要switch，直接赋值即可
+				if(rules[i].token_type == TK_NOTYPE) //空格直接舍弃
+				break;
+				if(substr_len>31)  //str溢出 false报错
+					assert(0);
+				memset(tokens[nr_token].str,'\0',32); //以防万一
+				strncpy(tokens[nr_token].str, substr_start, substr_len);// 类似上面的%.*s
+
+				tokens[nr_token].type = rules[i].token_type;
+				// Log("Save in type=%d, str=%s",tokens[nr_token].type,tokens[nr_token].str);
+				nr_token = nr_token + 1;
+				
 				break;
 			}
 		}
