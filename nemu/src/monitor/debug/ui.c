@@ -2,6 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "common.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -153,17 +154,19 @@ static int cmd_x(char *args) {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-         printf("%s\n",expr);//测试能否输出expr
+         printf("%s\n",expr0);//测试能否输出expr
 
-        bool *success=false;
-        vaddr_t addr = expr(expr0,success);
-        // vaddr_t addr = expr0;
-        int i;
-        for( i=0;i<N;i++)
-        {
-                printf("0x%08x:\t0x%08x\n",addr,vaddr_read(addr,4));
-                addr = addr+4;
-        }
+        // bool *success=false;
+		char *str;
+		lnaddr_t addr = strtol(expr0,&str,16);
+		 printf("0x%08x:\t0x%08x\n",addr,lnaddr_read(addr,4));
+        // vaddr_t addr = expr(expr0,success);
+        // int i;
+        // for( i=0;i<N;i++)
+        // {
+        //         printf("0x%08x:\t0x%08x\n",addr,vaddr_read(addr,4));
+        //         addr = addr+4;
+        // }
         return 0;
 }
 
