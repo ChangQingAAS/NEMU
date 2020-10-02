@@ -148,7 +148,12 @@ static int cmd_x(char *args) {
         }
         printf("N is %d\n",N);//测试能否输出N
 
-		char* expression = args ;
+		char* expression = strtok(NULL, " ") ;
+		while( expression != NULL ) {
+      	printf( "%s\n", expression );
+    
+      	expression = strtok(NULL, " ");
+  		 }
         if(expr == NULL)
         {
                 printf("Lack of parameter!\n");
