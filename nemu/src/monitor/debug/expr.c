@@ -133,7 +133,7 @@ static bool make_token(char *e) {
 
 				//i以取出，不需要switch，直接赋值即可
 				if(rules[i].token_type == TK_NOTYPE) //空格直接舍弃
-				break;
+					break;
 				if(substr_len>31)  //str溢出 false报错
 					assert(0);
 				memset(tokens[nr_token].str,'\0',32); //以防万一
@@ -152,7 +152,6 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-
 	return true; 
 }
 
@@ -282,7 +281,8 @@ uint32_t eval(int p,int q){
 					if(currentTokenPriority>9){currentTokenPriority=9;op=i;op_type=TK_NEG;continue;}
                 case TK_POI:
 					if(currentTokenPriority>9){currentTokenPriority=9;op=i;op_type=TK_POI;continue;}
-                default:continue;
+                default:
+					continue;
             }
 		}
 		//分成子串，进行计算
@@ -310,8 +310,6 @@ uint32_t eval(int p,int q){
 		}
 	}
 }
-
-
 
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
