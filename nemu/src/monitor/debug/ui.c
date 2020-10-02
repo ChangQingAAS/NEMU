@@ -150,11 +150,14 @@ static int cmd_x(char *args) {
 
 		char* e = strtok(NULL, " ") ;
 		char* expression = e;
+		printf("expression is %s\n", expression);
 		while( e != NULL ) {
-      		printf( "%s\n", e );
+      		printf( "e is %s\n", e );
     
       		e = strtok(NULL, " ");
 		    strcat( expression , e);
+			printf("expression is %s\n", expression);
+
   		 }
         if(expr == NULL)
         {
