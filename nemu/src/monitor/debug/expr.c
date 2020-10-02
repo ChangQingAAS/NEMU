@@ -140,7 +140,7 @@ static bool make_token(char *e) {
 				strncpy(tokens[nr_token].str, substr_start, substr_len);// 类似上面的%.*s
 
 				tokens[nr_token].type = rules[i].token_type;
-				// Log("Save in type=%d, str=%s",tokens[nr_token].type,tokens[nr_token].str);
+				Log("Save in type=%d, str=%s",tokens[nr_token].type,tokens[nr_token].str);
 				nr_token = nr_token + 1;
 				
 				break;
