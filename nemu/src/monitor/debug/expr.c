@@ -280,7 +280,7 @@ uint32_t eval(int p,int q){
             case '/':return val1/val2;
             case '!':return !val2;
             case TK_NEG:return -1*val2; 
-            case TK_POI:return hwaddr_read(val2,4);
+            case TK_POI:return swaddr_read(val2,4);
             default:assert(0);
 		}
 	}

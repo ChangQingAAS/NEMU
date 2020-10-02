@@ -159,11 +159,11 @@ static int cmd_x(char *args) {
 		//PA1  stage2
 		// bool *success=false;
 		char *str;
-		hwaddr_t addr = strtol(expr,&str,16);
+		swaddr_t addr = strtol(expr,&str,16);
         int i;
         for( i=0;i<N;i++)
         {
-                printf("0x%08x:\t0x%08x\n",addr,hwaddr_read(addr,4));
+                printf("0x%08x:\t0x%08x\n",addr,swaddr_read(addr,4));
                 addr = addr+4;
         }
 
