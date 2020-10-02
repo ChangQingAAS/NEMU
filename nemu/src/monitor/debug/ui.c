@@ -146,20 +146,20 @@ static int cmd_x(char *args) {
                 printf("Unknown command '%s'\n",arg);
                 return 0;  //N=0时无法输出
         }
-        printf("%d\n",N);//测试能否输出N
+        printf("N is %d\n",N);//测试能否输出N
 
-		char* expr0 = strtok(NULL, " ");
-        if(expr0 == NULL)
+		char* expr = strtok(NULL, " ");
+        if(expr == NULL)
         {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-         printf("%s\n",expr0);//测试能否输出expr
+         printf("expr is %s\n",expr);//测试能否输出expr
 
         // bool *success=false;
 		char *str;
-		lnaddr_t addr = strtol(expr0,&str,16);
-        // vaddr_t addr = expr(expr0,success);
+		lnaddr_t addr = strtol(expr,&str,16);
+        // vaddr_t addr = expr(expr,success);
         int i;
         for( i=0;i<N;i++)
         {
