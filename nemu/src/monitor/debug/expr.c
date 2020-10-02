@@ -48,7 +48,7 @@ static struct rule {
 
 	{"&&", TK_AND},
   	{"\\|\\|", TK_OR},
-	//where is TK_NEG fushu,POI 
+	//TK_NEG and TK_POI is implement in expr();
   	{"!", '!'},
 
   	// 注意前缀问题 >=识别应在>前面 
