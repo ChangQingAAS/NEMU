@@ -10,6 +10,11 @@ enum {
 	NOTYPE = 256, EQ
 
 	/* TODO: Add more token types */
+	TK_NOTYPE = 256, TK_HEX, TK_DEC, TK_REG, TK_EQ, TK_NEQ, 
+  	TK_AND, TK_OR,
+ 	TK_NEG,      //-代表负数
+  	TK_POI,       //指针解引用
+  	TK_LS, TK_RS, TK_BOE, TK_LOE
 
 };
 
@@ -19,12 +24,39 @@ static struct rule {
 } rules[] = {
 
 	/* TODO: Add more rules.
-	 * Pay attention to the precedence level of different rules.
+	 * Pay attention to the precedence level优先级 of different rules.
 	 */
 
-	{" +",	NOTYPE},				// spaces
-	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	//{" +",	NOTYPE},				// spaces
+	//{"\\+", '+'},					// plus
+	//{"==", EQ}						// equal
+
+	
+  	{"0x[0-9A-Fa-f][0-9A-Fa-f]*", TK_HEX},
+  	{"0|[1-9][0-9]*", TK_DEC},
+  	{"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TK_REG},
+
+	
+  	{"\\+", '+'},         // 使用单引号
+  	{"-", '-'},          
+  	{"\\*", '*'},
+  	{"\\/", '/'},
+  	{"\\(", '('},
+  	{"\\)", ')'},
+	{" +", TK_NOTYPE},    // spaces
+  	{"==", TK_EQ},         
+  	{"!=", TK_NEQ},
+	{"&&", TK_AND},
+  	{"\\|\\|", TK_OR},
+  	{"!", '!'},
+  	// 注意前缀问题 >=识别应在>前面 
+  	// 类似的 十进制和十六进制位置
+  	{"<<", TK_LS},
+  	{">>", TK_RS},
+  	{">=", TK_BOE},
+  	{">", '>'},
+  	{"<=", TK_LOE},
+  	{"<", '<'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
