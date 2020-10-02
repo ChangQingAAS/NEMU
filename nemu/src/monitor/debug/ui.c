@@ -156,18 +156,17 @@ static int cmd_x(char *args) {
         }
          printf("expr is %s\n",expr);//测试能否输出expr
 
-        // bool *success=false;
 		char *str;
-		lnaddr_t addr = strtol(expr,&str,16);
-        // vaddr_t addr = expr(expr,success);
+		hwaddr_t addr = strtol(expr,&str,16);
         int i;
         for( i=0;i<N;i++)
         {
-                printf("0x%08x:\t0x%08x\n",addr,lnaddr_read(addr,4));
+                printf("0x%08x:\t0x%08x\n",addr,hwaddr_read(addr,4));
                 addr = addr+4;
         }
         return 0;
 }
+// bool *success=false;
 
 void ui_mainloop() {
         while(1) {
