@@ -148,18 +148,18 @@ static int cmd_x(char *args) {
         }
         printf("N is %d\n",N);//测试能否输出N
 
-		char* expr = strtok(NULL, " ");
+		char* expression = strtok(NULL, " ");
         if(expr == NULL)
         {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-         printf("expr is %s\n",expr);//测试能否输出expr
+         printf("expression is %s\n",expression);//测试能否输出expr
 
 		//PA1  stage2
-		// bool *success=false;
-		char *str;
-		swaddr_t addr = strtol(expr,&str,16);
+		bool *success=false;
+		// char *str;
+		swaddr_t addr = expr(expression,success);
         int i;
         for( i=0;i<N;i++)
         {
