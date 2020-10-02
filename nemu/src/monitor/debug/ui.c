@@ -148,17 +148,18 @@ static int cmd_x(char *args) {
         }
         printf("N is %d\n",N);//测试能否输出N
 
-		char* e = strtok(NULL, " ") ;
-		char* expression = e;
-		printf("expression is %s\n", expression);
-		while( e != NULL ) {
-      		printf( "e is %s\n", e );
+		// char* e = strtok(NULL, " ") ;
+		// char* expression = e;
+		// printf("expression is %s\n", expression);
+		// while( e != NULL ) {
+      	// 	printf( "e is %s\n", e );
     
-      		e = strtok(NULL, " ");
-		    strcat( expression , e);
-			printf("expression is %s\n", expression);
+      	// 	e = strtok(NULL, " ");
+		//     strcat( expression , e);
+		// 	printf("expression is %s\n", expression);
 
-  		 }
+  		//  }
+		char* expression = strtok(NULL, " ");
         if(expr == NULL)
         {
                 printf("Lack of parameter!\n");
