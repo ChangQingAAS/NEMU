@@ -156,6 +156,7 @@ static int cmd_x(char *args) {
         }
          printf("expr is %s\n",expr);//测试能否输出expr
 
+		//PA1  stage2
 		char *str;
 		hwaddr_t addr = strtol(expr,&str,16);
         int i;
@@ -164,6 +165,7 @@ static int cmd_x(char *args) {
                 printf("0x%08x:\t0x%08x\n",addr,hwaddr_read(addr,4));
                 addr = addr+4;
         }
+		
         return 0;
 }
 // bool *success=false;
