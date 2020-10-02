@@ -143,6 +143,35 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+uint32_t eval(int p,int q){
+    if(p>q){   
+        // printf("Bad expression\n");
+        return 0;
+        // assert(0);
+    }
+    else if(p==q){
+        // Single token.
+		// For now this token should be a number.
+		// Return the value of the number.
+        }
+    }
+    else if(check_parentheses(p,q) == true){
+		// The expression is surrounded by a matched pair of parentheses.
+		// If that is the case, just throw away the parentheses.
+        return eval(p+1,q-1);
+    }
+    else{
+		// We should do more things here
+		//op = the position of dominant operator in the token expression;
+		val1 = eval(p, op - 1);
+		val2 = eval(op +1, q);
+		switch(op_type){
+			case '+': return val1 + val2;
+			case '-';
+			default: assert(0);
+		}
+	}
+}
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
