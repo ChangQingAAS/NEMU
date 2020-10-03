@@ -206,7 +206,7 @@ static int cmd_w(char *args){
         WP* newWatchpoint =  new_watchpoint();
         strcpy(newWatchpoint->eexpression,args);
         newWatchpoint->init = expr(args,success);
-        printf("Set watchpoint %d on %d\n",newWatchpoint->NO,newWatchpoint->init);
+        printf("Set watchpoint %d on 0x%08x\n",newWatchpoint->NO,newWatchpoint->init);
         return 0;
 }
 
