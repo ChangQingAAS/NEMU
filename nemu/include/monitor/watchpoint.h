@@ -8,8 +8,8 @@ typedef struct watchpoint {
 	struct watchpoint *next;
 
 	/* TODO: Add more members if necessary */
-	char eexpression[100];
-  	uint32_t init;
+	char expression[100];
+  	uint32_t address;
 
 } WP;
 

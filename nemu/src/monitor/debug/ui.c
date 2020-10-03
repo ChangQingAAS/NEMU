@@ -202,11 +202,11 @@ static int cmd_w(char *args){
                 printf("Lack of parameter!\n");
                 return 0;
         }
-         bool *success = false;
+        bool *success = false;
         WP* newWatchpoint =  new_watchpoint();
-        strcpy(newWatchpoint->eexpression,args);
-        newWatchpoint->init = expr(args,success);
-        printf("Set watchpoint %d on 0x%08x\n",newWatchpoint->NO,newWatchpoint->init);
+        strcpy(newWatchpoint->expression,args);
+        newWatchpoint->address = expr(args,success);
+        printf("Set watchpoint %d on 0x%08x\n",newWatchpoint->NO,newWatchpoint->address);
         return 0;
 }
 
