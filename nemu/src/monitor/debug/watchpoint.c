@@ -47,12 +47,12 @@ void free_watchpoint(int N){
 	show_watchpoint();
     WP *p, *q;
 	p = head;
-	int j = 1;
-	while(p->next && j < N ){
+	int j = 0;
+	while(p->next && j < N-1 ){
 		p = p->next;
 		++j;
 	}
-	if(!(p->next) || j > N){
+	if(!(p->next) || j > N-1){
 		printf("Position error\n");
 		assert(0);
 	}
