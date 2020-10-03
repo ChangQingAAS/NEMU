@@ -44,6 +44,7 @@ WP* new_watchpoint(){
 }
 
 void free_watchpoint(int N){
+	show_watchpoint();
     WP *p, *q;
 	p = head;
 	int j = 1;
