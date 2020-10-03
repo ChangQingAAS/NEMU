@@ -50,6 +50,9 @@ clean: clean-cpp
 	-rm -rf obj 2> /dev/null
 	-rm -f *log.txt entry $(FLOAT) 2> /dev/null
 
+count:
+	find . | grep '\.c$\|\.h$' | xargs wc -l> /dev/null
+
 
 ##### some convinient rules #####
 
