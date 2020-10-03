@@ -82,6 +82,9 @@ void show_watchpoint(){
     WP *temp = head;
 	if(temp != NULL)
 		printf("Number\t\tValue\t\tAddress\t\tExpression\n");
+	else
+		printf("There is no watchpoints\n");
+	
     while(temp!=NULL)
     {
         printf("%d\t\t0x%08x\t0x%08x\t%s\n",temp->NO, temp->value, temp->address,temp->expression);
