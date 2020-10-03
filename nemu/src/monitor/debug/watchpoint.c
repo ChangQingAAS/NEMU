@@ -51,8 +51,11 @@ void free_watchpoint(int N){
 		p = p->next;
 		++j;
 	}
-	if(!(p->next) || j > N)
+	if(!(p->next) || j > N){
 		printf("Position error\n");
+		assert(0);
+	}
+		
 	q = p->next;
 	p->next = q->next;//删除并释放结点
 	free(p);
