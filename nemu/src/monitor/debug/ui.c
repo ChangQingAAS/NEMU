@@ -43,6 +43,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
+static int cmd_p(char *args);
 
 static struct {
         char *name;
@@ -56,7 +57,7 @@ static struct {
         {"si","Run N single steps",cmd_si},
         { "info", "Print regs' or watchpoint's state", cmd_info },
         { "x", "Scan the memory", cmd_x },
-
+        {"p","Expression evaluate", cmd_p},
 
 };
 
@@ -181,6 +182,16 @@ static int cmd_x(char *args) {
         return 0;
 }
 
+static int cmd_p(char *args) {
+        bool *success = false;
+        if(args == NULL){
+                printf("Lack of parameter!\n");
+                return 0;
+        }
+        uint32_t result = expr(args, success);
+        printf("0x%08x\n", result);
+        return 0;
+}
 
 void ui_mainloop() {
         while(1) {
