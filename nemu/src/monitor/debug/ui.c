@@ -159,7 +159,7 @@ static int cmd_x(char *args) {
 		// 	printf("expression is %s\n", expression);
 
   		//  }
-		char* expression = strtok(NULL, " ");
+	char* expression = strtok(NULL, " ");
         if(expr == NULL)
         {
                 printf("Lack of parameter!\n");
