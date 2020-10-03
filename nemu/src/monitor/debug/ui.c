@@ -44,6 +44,8 @@ static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
 static int cmd_p(char *args);
+static int cmd_w(char *args);
+static int cmd_d(char *args);
 
 static struct {
         char *name;
@@ -58,6 +60,8 @@ static struct {
         { "info", "Print regs' or watchpoint's state", cmd_info },
         { "x", "Scan the memory", cmd_x },
         {"p","Expression evaluate", cmd_p},
+        { "w", "Set watchpoint", cmd_w },
+        { "d", "Delete watchpoint", cmd_d },
 
 };
 
@@ -193,6 +197,25 @@ static int cmd_p(char *args) {
         return 0;
 }
 
+static int cmd_w(char *args){
+         if(args == NULL){
+                printf("Lack of parameter!\n");
+                return 0;
+        }
+        //
+        return 0;
+}
+
+static int cmd_d(char *args){
+        if(args == NULL){
+                printf("Lack of parameter!\n");
+                return 0;
+        }
+        int N;
+        sscanf(args, "%d", &N);
+        printf("%d\n",N);
+        return 0;
+}
 void ui_mainloop() {
         while(1) {
                 char *str = rl_gets();
