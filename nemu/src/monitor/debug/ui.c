@@ -211,8 +211,8 @@ static int cmd_d(char *args){
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        int N;
-        sscanf(args, "%d", &N);
+        int N = atoi(args);
+        
         printf("%d\n",N);
         return 0;
 }
