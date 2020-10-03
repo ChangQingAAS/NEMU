@@ -55,7 +55,8 @@ void free_watchpoint(int N){
 		printf("Position error\n");
 	q = p->next;
 	p->next = q->next;//删除并释放结点
-	free(q);
+	free(p);
+
 }
 
 void show_watchpoint(){
