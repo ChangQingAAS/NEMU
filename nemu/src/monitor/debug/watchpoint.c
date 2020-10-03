@@ -29,7 +29,7 @@ WP* new_watchpoint(){
         return head;
     }
     else{
-        if(free_ == NULL) //没有空闲的了
+        if(free_ == NULL) //没有空闲的位置了
             assert(0);
         WP* temp = head;
         while(temp->next!=NULL){
@@ -44,22 +44,41 @@ WP* new_watchpoint(){
 }
 
 void free_watchpoint(int N){
-	show_watchpoint();
-    WP *p, *q;
-	p = head;
-	int j = 0;
-	while(p->next && j < N-1){
-		p = p->next;
-		j++;
-	}
-	// if(!(p->next) || j > N){
-	// 	printf("Position error\n");
-	// 	assert(0);
-	// }
-		
-	q = p->next;
-	p->next = q->next;//删除并释放结点
-	free(q);
+	assert(N>=0);
+	 WP *toDeletePoint = head;
+	 WP *previousToDeletePoint = head;
+	 //找到结点位置必定需要N，
+	 //而N==0时，无法先求previous（N-1）,再求delete。
+	 //故先求delete再用它求previous(->next==delete)
+	 
+	 if(N == 0){
+
+	 }
+	 else{
+		//找到被删结点的前一个结点
+		while(previousToDeletePoint != NULL){
+        	if(previousToDeletePoint->NO == N-1){
+            	break;
+			}
+        	previousToDeletePoint = previousToDeletePoint->next;
+    	}
+		//找到需要删除的结点
+		if(previousToDeletePoint->next != NULL)
+			toDeletePoint = previousToDeletePoint->next;
+		else
+		{
+			printf("Wrong position!\n");
+			return ;
+		}
+	 }
+    if(head == toDeletePoint)
+        head = head->next;
+    else
+    {
+		previousToDeletePoint->next = toDeletePoint->next;
+    }
+    toDeletePoint->next = free_;
+    free_ = toDeletePoint;
 }
 
 void show_watchpoint(){
