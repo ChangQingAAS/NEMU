@@ -48,9 +48,9 @@ void free_watchpoint(int N){
     WP *p, *q;
 	p = head;
 	int j = 0;
-	while(p->next && j < N){
+	while(p->next && j < N-1){
 		p = p->next;
-		++j;
+		j++;
 	}
 	if(!(p->next) || j > N){
 		printf("Position error\n");
@@ -59,7 +59,7 @@ void free_watchpoint(int N){
 		
 	q = p->next;
 	p->next = q->next;//删除并释放结点
-	free(p);
+	free(q);
 }
 
 void show_watchpoint(){
