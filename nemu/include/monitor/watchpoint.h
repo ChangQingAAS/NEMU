@@ -9,7 +9,8 @@ typedef struct watchpoint {
 
 	/* TODO: Add more members if necessary */
 	char expression[100];
-  	uint32_t address;
+  	swaddr_t address;
+	swaddr_t value; 
 
 } WP;
 
