@@ -1,6 +1,8 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
 
+#include<stdlib.h>
+
 #define NR_WP 32
 
 static WP wp_pool[NR_WP];
@@ -42,7 +44,18 @@ WP* new_watchpoint(){
 }
 
 void free_watchpoint(int N){
-
+	WP *p, *q;
+	p = head;
+	int j = 0;
+	while(p->next && j < N - 1){
+		p = p->next;
+		++j;
+	}
+	if(!(p->next) || j > N-1)
+		printf("fail to delete\n");
+	q = p->next;
+	p->next = q->next;//删除并释放结点
+	free(q);
 }
 
 void show_watchpoint(){
