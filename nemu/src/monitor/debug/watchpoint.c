@@ -46,11 +46,11 @@ void free_watchpoint(int N){
 }
 
 void show_watchpoint(){
-	printf("Number\t\tWhat\n");
+	printf("Number\t\tAddress\t\tValue\n");
     WP *temp = head;
     while(temp!=NULL)
     {
-        printf("%d\t\t0x%08x\n",temp->NO,temp->address);
+        printf("%d\t\t0x%08x\t\t%s\n",temp->NO,temp->address,temp->expression);
         temp = temp->next;
     }
 }
