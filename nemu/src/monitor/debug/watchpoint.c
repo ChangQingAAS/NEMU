@@ -50,7 +50,7 @@ void show_watchpoint(){
     WP *temp = head;
     while(temp!=NULL)
     {
-        printf("%d\t\t0x%08x%s\n",temp->NO,temp->address,temp->expression);
+        printf("%d\t\t0x%08x\t%s\n",temp->NO,temp->address,temp->expression);
         temp = temp->next;
     }
 }
