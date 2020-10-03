@@ -49,12 +49,9 @@ void free_watchpoint(int N){
 	 WP *previousToDeletePoint = head;
 	 //找到结点位置必定需要N，
 	 //而N==0时，无法先求previous（N-1）,再求delete。
-	 //故先求delete再用它求previous(->next==delete)
-	 
-	 if(N == 0){
-
-	 }
-	 else{
+	 //但N==0是特殊位置可以并到后面的指针变动中
+	 //当N>0时，先求previous（N-1）,再求delete
+	 if(N > 0){
 		//找到被删结点的前一个结点
 		while(previousToDeletePoint != NULL){
         	if(previousToDeletePoint->NO == N-1){
@@ -70,11 +67,10 @@ void free_watchpoint(int N){
 			printf("Wrong position!\n");
 			return ;
 		}
-	 }
-    if(head == toDeletePoint)
+	}
+    if(head == toDeletePoint)//N == 0的情况
         head = head->next;
-    else
-    {
+    else{
 		previousToDeletePoint->next = toDeletePoint->next;
     }
     toDeletePoint->next = free_;
@@ -92,7 +88,25 @@ void show_watchpoint(){
 }
 
 bool check_watchpoint(){
+	//有监视点变动，则返回true
+	WP *temp = head;
+    bool change = false;
+    while(temp!=NULL)
+    {	//检查每一个监视点
 
-	return true;
+        bool *success = false;
+        uint32_t new_val = expr(temp->expression,success); 
+        if(new_val != temp->address)
+        {
+            printf("Watchpoint %d: %s\n",temp->NO,temp->expression);
+            printf("Old value = 0x%08x\nNew value = 0x%08x\n",temp->address,new_val);
+            temp->address = new_val;//赋新值
+            change = true; 
+        }
+        temp = temp->next;
+    }
+    if(change)
+        return true;
+    return false;
 }
 
