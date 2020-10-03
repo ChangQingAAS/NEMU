@@ -57,11 +57,11 @@ static struct {
         { "q", "Exit NEMU", cmd_q },
         /* TODO: Add more commands */
         {"si","Run N single steps",cmd_si},
-        { "info", "Print regs' or watchpoint's state", cmd_info },
+        { "info", "Print regs' or watchpoints' state", cmd_info },
         { "x", "Scan the memory", cmd_x },
-        {"p","Expression evaluate", cmd_p},
-        { "w", "Set watchpoint", cmd_w },
-        { "d", "Delete watchpoint", cmd_d }
+        {"p","Evaluate a expression", cmd_p},
+        { "w", "Set a watchpoint", cmd_w },
+        { "d", "Delete a watchpoint", cmd_d }
 
 };
 
