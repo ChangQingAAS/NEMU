@@ -61,7 +61,7 @@ static struct {
         { "x", "Scan the memory", cmd_x },
         {"p","Expression evaluate", cmd_p},
         { "w", "Set watchpoint", cmd_w },
-        { "d", "Delete watchpoint", cmd_d },
+        { "d", "Delete watchpoint", cmd_d }
 
 };
 
