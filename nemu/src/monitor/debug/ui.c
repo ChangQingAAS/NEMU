@@ -106,7 +106,7 @@ static int cmd_info(char *args) {
                         }
                         else if(strcmp(arg, subcmd[1]) == 0) //'w'打印监视点信息
                         {
-                                // show_wp();
+                                show_watchpoint();
                                 return 0;
                         }
                         else
