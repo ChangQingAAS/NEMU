@@ -218,7 +218,6 @@ static int cmd_d(char *args){
         }
         int N = atoi(args);
         free_watchpoint(N);
-        printf("Free watchpoint %d in XXXXX\n", N);
         return 0;
 }
 void ui_mainloop() {

@@ -75,6 +75,8 @@ void free_watchpoint(int N){
     }
     toDeletePoint->next = free_;
     free_ = toDeletePoint;
+    printf("Free watchpoint %d in XXXXX\n", N);
+
 }
 
 void show_watchpoint(){
