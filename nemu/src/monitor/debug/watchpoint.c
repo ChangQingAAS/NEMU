@@ -19,7 +19,38 @@ void init_wp_pool() {
 }
 
 /* TODO: Implement the functionality of watchpoint */
+WP* new_watchpoint(){
+	if(head == NULL){
+        head = free_;
+        free_=free_->next;
+        head->next = NULL;
+        return head;
+    }
+    else{
+        if(free_ == NULL) //没有空闲的了
+            assert(0);
+        WP* temp = head;
+        while(temp->next!=NULL){
+            temp = temp->next;
+        }
+        temp->next = free_;
+        free_ = free_->next;
+        temp = temp->next;
+        temp->next = NULL;
+        return temp;
+    }
+}
+
+void free_watchpoint(int N){
+
+}
+
 void show_watchpoint(){
-	
+
+}
+
+bool check_watchpoint(){
+
+	return true;
 }
 

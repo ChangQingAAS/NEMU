@@ -202,7 +202,11 @@ static int cmd_w(char *args){
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        //
+         bool *success = false;
+        WP* newWatchpoint =  new_watchpoint();
+        strcpy(newWatchpoint->eexpression,args);
+        newWatchpoint->init = expr(args,success);
+        printf("Set watchpoint %d on %s\n",newWatchpoint->NO,args);
         return 0;
 }
 
@@ -212,8 +216,8 @@ static int cmd_d(char *args){
                 return 0;
         }
         int N = atoi(args);
-        
-        printf("%d\n",N);
+        free_watchpoint(N);
+        printf("Free watchpoint %d in XXXXX\n", N);
         return 0;
 }
 void ui_mainloop() {
