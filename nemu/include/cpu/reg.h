@@ -34,8 +34,8 @@ typedef struct {
 extern CPU_state cpu;
 
 static inline int check_reg_index(int index) {
-	assert(index >= 0 && index < 8);
-	return index;
+        assert(index >= 0 && index < 8);
+        return index;
 }
 
 #define reg_l(index) (cpu.gpr[check_reg_index(index)]._32)
