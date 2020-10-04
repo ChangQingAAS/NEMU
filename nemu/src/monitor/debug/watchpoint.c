@@ -102,12 +102,12 @@ bool check_watchpoint(){
     {	//检查每一个监视点
 
         bool *success = false;
-        uint32_t new_val = expr(temp->expression,success); 
-        if(new_val != temp->address)
+        uint32_t newAddress = expr(temp->expression,success); 
+        if(newAddress != temp->address)
         {
             printf("Watchpoint %d: %s\n",temp->NO,temp->expression);
-            printf("Old value = 0x%08x\nNew value = 0x%08x\n",temp->address,new_val);
-            temp->address = new_val;//赋新值
+            printf("Old value = 0x%08x\nNew value = 0x%08x\n",temp->address,newAddress);
+            temp->address = newAddress;//赋新值
             change = true; 
         }
         temp = temp->next;
