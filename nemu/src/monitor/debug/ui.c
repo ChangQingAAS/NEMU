@@ -15,7 +15,7 @@ char* rl_gets() {
         static char *line_read = NULL;
 
         if (line_read) {
-                free(line_read);//readline返回值由malloc分配，释放需要free
+                free(line_read);
                 line_read = NULL;
         }
 
@@ -28,18 +28,9 @@ char* rl_gets() {
         return line_read;
 }
 
-static int cmd_c(char *args) {
-        cpu_exec(-1);
-        return 0;
-}
-
-static int cmd_q(char *args) {
-        return -1;
-}
-
-
-
 static int cmd_help(char *args);
+static int cmd_c(char *args);
+static int cmd_q(char *args);
 static int cmd_si(char *args);
 static int cmd_info(char *args);
 static int cmd_x(char *args);
@@ -91,8 +82,32 @@ static int cmd_help(char *args) {
         return 0;
 }
 
-static int cmd_info(char *args) {
+static int cmd_c(char *args) {
+        cpu_exec(-1);
+        return 0;
+}
 
+static int cmd_q(char *args) {
+        return -1;
+}
+
+static int cmd_si(char *args){
+        // printf("have enter the cmd_si\n");
+        //当N没有给出时, 缺省为1
+        if(args == NULL|| !(args[0]>='0'&&args[0]<='9')){
+                args = "1";
+        }
+        int singleStepRunNum = atoi(args);//atoi字符转数字
+        // printf("%-10d\n",singleStepRunNum);
+        ///程序单步执行N条指令后暂停
+        int i;
+        for(i = 0; i<singleStepRunNum;i++)
+                cpu_exec(1);
+        
+        return 0;
+}
+
+static int cmd_info(char *args) {
         char *subcmd[] = {"r","w"};
         // int i;
         char *arg = strtok(NULL, " ");
@@ -124,35 +139,20 @@ static int cmd_info(char *args) {
         return 0;
 }
 
-static int cmd_si(char *args){
-        // printf("have enter the cmd_si\n");
-        if(args == NULL|| !(args[0]>='0'&&args[0]<='9')){
-                args = "1";
-        }
-        int singleStepRunNum = atoi(args);//atoi字符转数字
-        printf("%-10d\n",singleStepRunNum);
-        int i;
-        for(i = 0; i<singleStepRunNum;i++)
-                cpu_exec(1);
-        
-        return 0;
-}
-
 static int cmd_x(char *args) {
-        int N;
         char *arg = strtok(NULL, " ");
         if(arg == NULL)
         {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        N = atoi(arg);
-        if(N==0){
+        int printNumber = atoi(arg);
+        if(printNumber == 0){
                 printf("Unknown command '%s'\n",arg);
                 return 0;  //N=0时无法输出
         }
-        printf("N is %d\n",N);//测试能否输出N
-
+        // printf("printNumber is %d\n",printNumber);//测试能否输出N
+        
 		// char* e = strtok(NULL, " ") ;
 		// char* expression = e;
 		// printf("expression is %s\n", expression);
@@ -165,24 +165,22 @@ static int cmd_x(char *args) {
 
   		//  }
 	char* expression = strtok(NULL, " ");
-        if(expr == NULL)
+        if(expression == NULL)
         {
                 printf("Lack of parameter!\n");
                 return 0;
         }
          printf("expression is %s\n",expression);//测试能否输出expr
 
-		//PA1  stage2
-		bool *success=false;
-		// char *str;
-		swaddr_t addr = expr(expression,success);
+	bool *success=false;
+	// char *str;
+	swaddr_t addr = expr(expression,success);
         int i;
-        for( i=0;i<N;i++)
+        for( i = 0; i < printNumber; i++)
         {
                 printf("0x%08x:\t0x%08x\n",addr,swaddr_read(addr,4));
                 addr = addr+4;
         }
-
         return 0;
 }
 
@@ -192,8 +190,8 @@ static int cmd_p(char *args) {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        uint32_t result = expr(args, success);
-        printf("0x%08x\n", result);
+        uint32_t computedResult = expr(args, success);
+        printf("0x%08x\n", computedResult);
         return 0;
 }
 
@@ -216,8 +214,8 @@ static int cmd_d(char *args){
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        int N = atoi(args);
-        free_watchpoint(N);
+        int watchpointNO = atoi(args);
+        free_watchpoint(watchpointNO);
         return 0;
 }
 void ui_mainloop() {
