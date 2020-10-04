@@ -55,8 +55,8 @@ clean: clean-cpp
 
 USERPROG := obj/testcase/mov
 ENTRY := $(USERPROG)
-COUNT_L :=$(shell find . -name "*[.h|.c]" | xargs grep -Ev "^$" | wc -l)
-COUNT_ADD :=$(shell expr $(COUNT_L)-2973)
+COUNT_L :=$(find . -name "*[.h|.c]" | xargs grep -Ev "^$" | wc -l)
+COUNT_ADD :=$(expr $(COUNT_L)-2973)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry

@@ -12,8 +12,7 @@ $(nemu_BIN): $(nemu_OBJS)
 
 PP_FILES := $(filter nemu/src/cpu/decode/%.c nemu/src/cpu/exec/%.c, $(nemu_CFILES))
 PP_TARGET := $(PP_FILES:.c=.i)
-COUNT_L :=$(shell find . -name "*[.h|.c]" | xargs grep -Ev "^$" | wc -l)
-COUNT_ADD :=$(shell expr $(COUNT_L)-2973)
+
 
 .PHONY: $(PP_TARGET)
 
