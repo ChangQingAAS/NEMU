@@ -15,7 +15,7 @@ typedef struct watchpoint {
 } WP;
 
 WP* new_watchpoint();
-void free_watchpoint(int N);
+void free_watchpoint(int watchpointNO);
 void show_watchpoint();
 bool check_watchpoint();
 #endif
