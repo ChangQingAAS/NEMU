@@ -55,6 +55,8 @@ clean: clean-cpp
 
 USERPROG := obj/testcase/mov
 ENTRY := $(USERPROG)
+COUNT_L :=$(shell find . -name "*[.h|.c]" | xargs grep -Ev "^$" | wc -l)
+COUNT_ADD :=$(shell expr $(COUNT_L)-2973)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
@@ -73,3 +75,5 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
+
+count: $(COUNT_L)
