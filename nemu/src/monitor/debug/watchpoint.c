@@ -48,9 +48,9 @@ void free_watchpoint(int watchpointNO){
 	 WP *toDeletePoint = head;
 	 WP *previousToDeletePoint = head;
 	 //找到结点位置必定需要N
-	 //而N==0时，无法先求previous（N-1）,再求delete。
-	 //但N==0是特殊位置可以并到后面的指针变动中
-	 //当N>0时，先求previous（N-1）,再求delete
+	 //而watchpointNO==0时，无法先求previous（watchpointNO-1）,再求delete。
+	 //但watchpointNO==0是特殊位置可以并到后面的指针变动中
+	 //当watchpointNO>0时，先求previous（watchpointNO-1）,再求delete
 	 if(watchpointNO > 0){
 		//找到被删结点的前一个结点
 		while(previousToDeletePoint != NULL){
