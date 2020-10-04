@@ -29,7 +29,7 @@ WP* new_watchpoint(){
         return head;
     }
     else{
-        if(free_ == NULL) //没有空闲的位置了
+        if(free_ == NULL) //静态链表中没有空闲的位置了
             assert(0);
         WP* temp = head;
         while(temp->next!=NULL){
@@ -43,18 +43,18 @@ WP* new_watchpoint(){
     }
 }
 
-void free_watchpoint(int N){
-	assert(N>=0);
+void free_watchpoint(int watchpointNO){
+	assert(watchpointNO >= 0);
 	 WP *toDeletePoint = head;
 	 WP *previousToDeletePoint = head;
-	 //找到结点位置必定需要N，
+	 //找到结点位置必定需要N
 	 //而N==0时，无法先求previous（N-1）,再求delete。
 	 //但N==0是特殊位置可以并到后面的指针变动中
 	 //当N>0时，先求previous（N-1）,再求delete
-	 if(N > 0){
+	 if(watchpointNO > 0){
 		//找到被删结点的前一个结点
 		while(previousToDeletePoint != NULL){
-        	if(previousToDeletePoint->NO == N-1){
+        	if(previousToDeletePoint->NO == watchpointNO-1){
             	break;
 			}
         	previousToDeletePoint = previousToDeletePoint->next;
@@ -75,7 +75,7 @@ void free_watchpoint(int N){
     }
     toDeletePoint->next = free_;
     free_ = toDeletePoint;
-    printf("Free watchpoint %d in XXXXX\n", N);
+    printf("Free watchpoint %d\n", watchpointNO);
 
 }
 
@@ -116,4 +116,3 @@ bool check_watchpoint(){
         return true;
     return false;
 }
-
