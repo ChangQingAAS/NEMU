@@ -24,4 +24,8 @@ cpp: $(PP_TARGET)
 
 clean-cpp:
 	-@rm -f $(PP_TARGET) 2> /dev/null
-count: $(COUNT_L)
+
+
+count: 	
+	@echo Totally $(COUNT_L)
+	@echo Totally $(COUNT_ADD)
