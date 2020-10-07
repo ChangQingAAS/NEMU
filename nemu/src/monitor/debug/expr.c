@@ -10,11 +10,11 @@ enum {
 	//NOTYPE = 256, EQ
 
 	/* TODO: Add more token types */
-	TK_NOTYPE = 256, TK_HEX, TK_DEC, TK_REG, TK_EQ, TK_NEQ, 
-  	TK_AND, TK_OR,
- 	TK_NEG,      //-代表负数
-  	TK_POI,       //指针解引用
-  	TK_LS, TK_RS, TK_BOE, TK_LOE
+	TOKEN_NOTYPE = 256, TOKEN_HEX, TOKEN_DEC, TOKEN_REG, TOKEN_EQ, TOKEN_NEQ, 
+  	TOKEN_AND, TOKEN_OR,
+ 	TOKEN_NEG,      //-代表负数
+  	TOKEN_POI,       //指针解引用
+  	TOKEN_LS, TOKEN_RS, TOKEN_BOE, TOKEN_LOE
 };
 
 static struct rule {
@@ -29,11 +29,11 @@ static struct rule {
 	//{"\\+", '+'},					// plus
 	//{"==", EQ}						// equal
 
-	{" +", TK_NOTYPE},    // spaces
-  	{"0x[0-9A-Fa-f][0-9A-Fa-f]*", TK_HEX},
-  	// {"0|[1-9][0-9]*", TK_DEC},
-	{"[0-9]+", TK_DEC},
-  	{"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TK_REG},
+	{" +", TOKEN_NOTYPE},    // spaces
+  	{"0x[0-9A-Fa-f][0-9A-Fa-f]*", TOKEN_HEX},
+  	// {"0|[1-9][0-9]*", TOKEN_DEC},
+	{"[0-9]+", TOKEN_DEC},
+  	{"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TOKEN_REG},
 
 	
   	{"\\+", '+'},         // 使用单引号
@@ -44,21 +44,21 @@ static struct rule {
   	{"\\(", '('},
   	{"\\)", ')'},
 	
-  	{"==", TK_EQ},         
-  	{"!=", TK_NEQ},
+  	{"==", TOKEN_EQ},         
+  	{"!=", TOKEN_NEQ},
 
-	{"&&", TK_AND},
-  	{"\\|\\|", TK_OR},
-	//TK_NEG and TK_POI is implement in expr();
+	{"&&", TOKEN_AND},
+  	{"\\|\\|", TOKEN_OR},
+	//TOKEN_NEG and TOKEN_POI is implement in expr();
   	{"!", '!'},
 
   	// 注意前缀问题 >=识别应在>前面 
   	// 类似的 十进制和十六进制位置
-  	{"<<", TK_LS},
-  	{">>", TK_RS},
-  	{">=", TK_BOE},
+  	{"<<", TOKEN_LS},
+  	{">>", TOKEN_RS},
+  	{">=", TOKEN_BOE},
   	{">", '>'},
-  	{"<=", TK_LOE},
+  	{"<=", TOKEN_LOE},
   	{"<", '<'}
 };
 
@@ -133,7 +133,7 @@ static bool make_token(char *e) {
 				// }
 
 				//i以取出，不需要switch，直接赋值即可
-				if(rules[i].token_type == TK_NOTYPE) //空格直接舍弃
+				if(rules[i].token_type == TOKEN_NOTYPE) //空格直接舍弃
 					break;
 				if(substr_len>31)  //str溢出 false报错
 					assert(0);
@@ -201,11 +201,11 @@ uint32_t eval(int p,int q){
 		// For now this token should be a number.
 		// Return the value of the number.
 		uint32_t result;
-		if(tokens[p].type == TK_HEX)
+		if(tokens[p].type == TOKEN_HEX)
 			sscanf(tokens[p].str,"%x",&result);
-		else if(tokens[p].type == TK_DEC)
+		else if(tokens[p].type == TOKEN_DEC)
 			sscanf(tokens[p].str,"%d",&result);
-		else if(tokens[p].type == TK_REG){
+		else if(tokens[p].type == TOKEN_REG){
             char tmp[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
             int i;
 			for( i=0;i<8;i++)
@@ -248,26 +248,26 @@ uint32_t eval(int p,int q){
 				continue;
 			}
 			switch(tokens[i].type){
-                case TK_OR:
-					if(currentTokenPriority>1){currentTokenPriority=1;op=i;op_type=TK_OR;continue;}
-                case TK_AND:
-					if(currentTokenPriority>2){currentTokenPriority=2;op=i;op_type=TK_AND;continue;}
-                case TK_NEQ:
-					if(currentTokenPriority>3){currentTokenPriority=3;op=i;op_type=TK_NEQ;continue;}
-                case TK_EQ:
-					if(currentTokenPriority>3){currentTokenPriority=3;op=i;op_type=TK_EQ;continue;}
-                case TK_LOE:
-					if(currentTokenPriority>4){currentTokenPriority=4;op=i;op_type=TK_LOE;continue;}
-                case TK_BOE:
-					if(currentTokenPriority>4){currentTokenPriority=4;op=i;op_type=TK_BOE;continue;}
+                case TOKEN_OR:
+					if(currentTokenPriority>1){currentTokenPriority=1;op=i;op_type=TOKEN_OR;continue;}
+                case TOKEN_AND:
+					if(currentTokenPriority>2){currentTokenPriority=2;op=i;op_type=TOKEN_AND;continue;}
+                case TOKEN_NEQ:
+					if(currentTokenPriority>3){currentTokenPriority=3;op=i;op_type=TOKEN_NEQ;continue;}
+                case TOKEN_EQ:
+					if(currentTokenPriority>3){currentTokenPriority=3;op=i;op_type=TOKEN_EQ;continue;}
+                case TOKEN_LOE:
+					if(currentTokenPriority>4){currentTokenPriority=4;op=i;op_type=TOKEN_LOE;continue;}
+                case TOKEN_BOE:
+					if(currentTokenPriority>4){currentTokenPriority=4;op=i;op_type=TOKEN_BOE;continue;}
                 case '<':
 					if(currentTokenPriority>4){currentTokenPriority=4;op=i;op_type='<';continue;}
                 case '>':
 					if(currentTokenPriority>4){currentTokenPriority=4;op=i;op_type='>';continue;}
-                case TK_RS:
-					if(currentTokenPriority>5){currentTokenPriority=5;op=i;op_type=TK_RS;continue;}
-                case TK_LS:
-					if(currentTokenPriority>5){currentTokenPriority=5;op=i;op_type=TK_LS;continue;}
+                case TOKEN_RS:
+					if(currentTokenPriority>5){currentTokenPriority=5;op=i;op_type=TOKEN_RS;continue;}
+                case TOKEN_LS:
+					if(currentTokenPriority>5){currentTokenPriority=5;op=i;op_type=TOKEN_LS;continue;}
                 case '+':
 					if(currentTokenPriority>6){currentTokenPriority=6;op=i;op_type='+';continue;}
                 case '-':
@@ -278,10 +278,10 @@ uint32_t eval(int p,int q){
 					if(currentTokenPriority>7){currentTokenPriority=7;op=i;op_type='/';continue;}
                 case '!':
 					if(currentTokenPriority>8){currentTokenPriority=8;op=i;op_type='!';continue;}
-                case TK_NEG:
-					if(currentTokenPriority>9){currentTokenPriority=9;op=i;op_type=TK_NEG;continue;}
-                case TK_POI:
-					if(currentTokenPriority>9){currentTokenPriority=9;op=i;op_type=TK_POI;continue;}
+                case TOKEN_NEG:
+					if(currentTokenPriority>9){currentTokenPriority=9;op=i;op_type=TOKEN_NEG;continue;}
+                case TOKEN_POI:
+					if(currentTokenPriority>9){currentTokenPriority=9;op=i;op_type=TOKEN_POI;continue;}
                 default:
 					continue;
             }
@@ -290,23 +290,23 @@ uint32_t eval(int p,int q){
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op +1, q);
 		switch(op_type){
-			case TK_OR:return val1||val2;
-            case TK_AND:return val1&&val2;
-            case TK_NEQ:return val1!=val2;
-            case TK_EQ:return val1==val2;
-            case TK_LOE:return val1<=val2;
-            case TK_BOE:return val1>=val2;
+			case TOKEN_OR:return val1||val2;
+            case TOKEN_AND:return val1&&val2;
+            case TOKEN_NEQ:return val1!=val2;
+            case TOKEN_EQ:return val1==val2;
+            case TOKEN_LOE:return val1<=val2;
+            case TOKEN_BOE:return val1>=val2;
             case '<':return val1<val2;
             case '>':return val1>val2;
-            case TK_RS:return val1>>val2;
-            case TK_LS:return val1<<val2;
+            case TOKEN_RS:return val1>>val2;
+            case TOKEN_LS:return val1<<val2;
             case '+':return val1+val2;
             case '-':return val1-val2;
             case '*':return val1*val2;
             case '/':return val1/val2;
             case '!':return !val2;
-            case TK_NEG:return -1*val2; 
-            case TK_POI:return swaddr_read(val2,4);
+            case TOKEN_NEG:return -1*val2; 
+            case TOKEN_POI:return swaddr_read(val2,4);
             default:assert(0);
 		}
 	}
@@ -323,17 +323,17 @@ uint32_t expr(char *e, bool *success) {
 		int i;
     	for( i=0;i<nr_token;i++)  //负号的判断 当其为第一个符号，或左边为(时,或按照讲义左边可能为负号(--1)
         {
-				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == '('||tokens[i-1].type == TK_NEG
+				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == '('||tokens[i-1].type == TOKEN_NEG
                                                                  ||tokens[i-1].type == '-'
                                                                  ||tokens[i-1].type == '+'
                                                                  ||tokens[i-1].type == '*'
                                                                  ||tokens[i-1].type == '/'))
-				tokens[i].type = TK_NEG;
+				tokens[i].type = TOKEN_NEG;
 		}
 
     	for(i=0;i<nr_token;i++)
-        	if(tokens[i].type == '*' &&(i==0||(tokens[i-1].type!=TK_DEC && tokens[i-1].type!=TK_HEX && tokens[i-1].type!=')')))
-               tokens[i].type = TK_POI;
+        	if(tokens[i].type == '*' &&(i==0||(tokens[i-1].type!=TOKEN_DEC && tokens[i-1].type!=TOKEN_HEX && tokens[i-1].type!=')')))
+               tokens[i].type = TOKEN_POI;
 	}
   return eval(0, nr_token-1);
 }
