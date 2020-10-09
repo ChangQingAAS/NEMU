@@ -343,18 +343,19 @@ uint32_t eval(int p,int q){
 						op=i;
 						continue;
 					}
-                case '*':
-					if(currentTokenPriority>7){						
-						currentTokenPriority=7;
-						op_type = '*';
-						op=i;
-						continue;
-						}
+                
                 case TOKEN_DIV:
 					if(currentTokenPriority>7){
 						currentTokenPriority=7;
 						op_type=TOKEN_DIV;
 						op=i;						
+						continue;
+						}
+				case '*':
+					if(currentTokenPriority>7){						
+						currentTokenPriority=7;
+						op_type = '*';
+						op=i;
 						continue;
 						}
                 case TOKEN_NOT:
