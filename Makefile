@@ -59,7 +59,7 @@ count:
 
 USERPROG := obj/testcase/mov
 ENTRY := $(USERPROG)
-COUNT_L := $(shell find . -name "*[.h|.c]" | xargs grep -Ev "^$$" | wc -l)
+COUNT_L := $(shell cd nemu && find . -name "*[.h|.c]" | xargs grep -Ev "^$$" | wc -l)
 COUNT_ADD := $(shell expr $(COUNT_L) - 2973)
 
 entry: $(ENTRY)
@@ -80,7 +80,5 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
 
-count: $(nemu_BIN) entry
-	@echo Totally $(COUNT_L) lines of code in nemu of this branch except empty line
-	@echo Totally $(COUNT_ADD) lines added into the frame code 
+
 
