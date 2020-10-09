@@ -76,4 +76,5 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
 
-count: $(COUNT_L)
+count:$(nemu_BIN) entry
+	$(COUNT_L)
