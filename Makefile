@@ -1,6 +1,6 @@
 ##### global settings #####
 
-.PHONY: nemu entry testcase kernel run gdb test submit clean
+.PHONY: nemu entry testcase kernel run gdb test submit clean count
 
 CC := gcc
 LD := ld

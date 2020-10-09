@@ -26,5 +26,4 @@ clean-cpp:
 
 
 count: 	
-	@echo Totally $(COUNT_L)
-	@echo Totally $(COUNT_ADD)
+	find . -name "*[.h|.c]" | xargs grep -Ev "^$" | wc -l
