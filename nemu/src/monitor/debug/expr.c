@@ -43,8 +43,8 @@ static struct rule {
 
 	
   	{"\\+", TOKEN_ADD},         // 使用单引号
-  	{"-", '-'},        
-	{"\\*", '*'},  
+  	{"-", '-'},        //45
+	{"\\*", '*'},  //42
   	{"\\/", TOKEN_DIV},
 	
   	{"\\(", TOKEN_LB},
@@ -350,6 +350,7 @@ uint32_t eval(int p,int q){
 						op=i;						
 						continue;
 						}
+					break;
 				case '*':
 					if(currentTokenPriority>7){						
 						currentTokenPriority=7;
@@ -400,8 +401,8 @@ uint32_t eval(int p,int q){
             case TOKEN_LS:return val1<<val2;
             case TOKEN_ADD:return val1+val2;
             case '-':return val1-val2;
+		    case '*':return val1*val2;
 			case TOKEN_DIV:return val1/val2;
-            case '*':return val1*val2;
             case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
             case TOKEN_POI:return swaddr_read(val2,4);
