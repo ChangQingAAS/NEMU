@@ -197,8 +197,8 @@ uint32_t eval(int p,int q){
     }
     else if(p==q){
 		// Single token.
-		// For now this token should be a number.
-		// Return the value of the number.
+		// For now this token should be a number(or a reg).
+		// Return the value of the number(or the reg).
 		uint32_t result;
 		if(tokens[p].type == TOKEN_HEX)
 			sscanf(tokens[p].str,"%x",&result);
@@ -206,6 +206,7 @@ uint32_t eval(int p,int q){
 			sscanf(tokens[p].str,"%d",&result);
 		else if(tokens[p].type == TOKEN_REG){
             char regName[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
+			if(strcmp(regName,"eip"))return cpu.eip;
             int i;
 			for( i=0;i<8;i++)
                 if(!strcmp(regName,regsl[i])){return cpu.gpr[i]._32;}
@@ -213,7 +214,6 @@ uint32_t eval(int p,int q){
                 if(!strcmp(regName,regsw[i])){return cpu.gpr[i]._16;}
             for( i=0;i<8;i++) 
                 if(!strcmp(regName,regsb[i])){return cpu.gpr[i%4]._8[i/4];}
-	    	if(strcmp(regName,"eip"))return cpu.eip;
         }
         else assert(0);
 		return result;
@@ -322,11 +322,8 @@ uint32_t expr(char *e, bool *success) {
 		int i;
     	for( i=0;i<nr_token;i++)  //负号的判断 当其为第一个符号，或左边为(时,或按照讲义左边可能为负号(--1)
         {
-				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == '('||tokens[i-1].type == TOKEN_NEG
-                                                                 ||tokens[i-1].type == '-'
-                                                                 ||tokens[i-1].type == '+'
-                                                                 ||tokens[i-1].type == '*'
-                                                                 ||tokens[i-1].type == '/'))
+				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == '('||tokens[i-1].type == TOKEN_NEG ||tokens[i-1].type == '-' ||tokens[i-1].type == '+'
+																	 ||tokens[i-1].type == '*'  ||tokens[i-1].type == '/'))
 				tokens[i].type = TOKEN_NEG;
 		}
 
