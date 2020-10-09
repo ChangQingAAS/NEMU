@@ -238,7 +238,7 @@ uint32_t eval(int p,int q){
 		// 按op的类型进行运算(switch)
 		int op = 0, op_type = 0;
 		bool leftBracket = false;//用于判断是否有左括号(即括号），最终目的是为了把表达式内的括号部分排除，以便于查找op
-		// int currentTokenPriority = 100;//符号的优先级大概有10个，设置一个远大于10的数字用于比较并不断改变优先级
+		int currentTokenPriority = 100;//符号的优先级大概有10个，设置一个远大于10的数字用于比较并不断改变优先级
 		int i;
 		for(i = p; i<=q; i++){
 			if(tokens[i].str[0] == ')'){
@@ -253,115 +253,132 @@ uint32_t eval(int p,int q){
 				continue;
 			}
 			//求出当前token的优先级，以便于拆分表达式
-			if(tokens[i].type<tokens[op].type) {
-				op=i;
-				op_type = tokens[i].type;
-			}
-			// switch(tokens[i].type){
-            //     case TOKEN_OR:
-			// 		if(currentTokenPriority>1){
-			// 			currentTokenPriority=1;
-			// 			op_type=TOKEN_OR;
-			// 			op=i;
-			// 			continue;
-			// 		}
-            //     case TOKEN_AND:
-			// 		if(currentTokenPriority>2){
-			// 			currentTokenPriority=2;
-			// 			op_type=TOKEN_AND;
-			// 			op=i;
-			// 			continue;
-			// 		}
-            //     case TOKEN_NEQ:
-			// 		if(currentTokenPriority>3){
-			// 			currentTokenPriority=3;
-			// 			op_type=TOKEN_NEQ;
-			// 			op=i;
-			// 			continue;
-			// 		}
-            //     case TOKEN_EQ:
-			// 		if(currentTokenPriority>3){
-			// 			currentTokenPriority=3;
-			// 			op_type=TOKEN_EQ;
-			// 			op=i;
-			// 			continue;
-			// 		}
-            //     case TOKEN_LOE:
-			// 		if(currentTokenPriority>4){
-			// 			currentTokenPriority=4;
-			// 			op_type=TOKEN_LOE;
-			// 			op=i;
-			// 			continue;
-			// 		}
-            //     case TOKEN_BOE:
-			// 		if(currentTokenPriority>4){
-			// 		currentTokenPriority=4;
-			// 		op_type=TOKEN_BOE;
-			// 		op=i;
-			// 		continue;
-			// 		}
-            //     case '<':
-			// 		if(currentTokenPriority>4){
-			// 		currentTokenPriority=4;
-			// 		op_type='<';
-			// 		op=i;
-			// 		continue;
-			// 		}
-            //     case '>':
-			// 		if(currentTokenPriority>4){
-			// 			currentTokenPriority=4;
-			// 			op_type='>';
-			// 			op=i;
-			// 			continue;
-			// 			}
-            //     case TOKEN_RS:
-			// 		if(currentTokenPriority>5){
-			// 			currentTokenPriority=5;
-			// 			op_type=TOKEN_RS;
-			// 			op=i;
-			// 			continue;
-			// 			}
-            //     case TOKEN_LS:
-			// 		if(currentTokenPriority>5){
-			// 			currentTokenPriority=5;
-			// 			op_type=TOKEN_LS;
-			// 			op=i;
-			// 			continue;
-			// 		}
-            //     case '+':
-			// 		if(currentTokenPriority>6){
-			// 			currentTokenPriority=6;op=i;op_type='+';
-			// 			continue;
-			// 			}
-            //     case '-':
-			// 		if(currentTokenPriority>6)
-			// 		{currentTokenPriority=6;op=i;op_type='-';continue;
-			// 		}
-            //     case '*':
-			// 		if(currentTokenPriority>7){
-			// 			currentTokenPriority=7
-			// 			;op=i;op_type='*';
-			// 			continue;
-			// 			}
-            //     case '/':
-			// 		if(currentTokenPriority>7){
-			// 			currentTokenPriority=7;op=i;op_type='/';continue;
-			// 			}
-            //     case '!':
-			// 		if(currentTokenPriority>8)
-			// 		{currentTokenPriority=8;op=i;op_type='!';continue;
-			// 		}
-            //     case TOKEN_NEG:
-			// 		if(currentTokenPriority>9){
-			// 			currentTokenPriority=9;op=i;op_type=TOKEN_NEG;continue;
-			// 			}
-            //     case TOKEN_POI:
-			// 		if(currentTokenPriority>9){
-			// 			currentTokenPriority=9;op=i;op_type=TOKEN_POI;continue;
-			// 			}
-            //     default:
-			// 		continue;
-            // }
+			// if(tokens[i].type<tokens[op].type) {
+			// 	op=i;
+			// 	op_type = tokens[i].type;
+			// }
+			switch(tokens[i].type){
+                case TOKEN_OR:
+					if(currentTokenPriority>1){
+						currentTokenPriority=1;
+						op_type=TOKEN_OR;
+						op=i;
+						continue;
+					}
+                case TOKEN_AND:
+					if(currentTokenPriority>2){
+						currentTokenPriority=2;
+						op_type=TOKEN_AND;
+						op=i;
+						continue;
+					}
+                case TOKEN_NEQ:
+					if(currentTokenPriority>3){
+						currentTokenPriority=3;
+						op_type=TOKEN_NEQ;
+						op=i;
+						continue;
+					}
+                case TOKEN_EQ:
+					if(currentTokenPriority>3){
+						currentTokenPriority=3;
+						op_type=TOKEN_EQ;
+						op=i;
+						continue;
+					}
+                case TOKEN_LOE:
+					if(currentTokenPriority>4){
+						currentTokenPriority=4;
+						op_type=TOKEN_LOE;
+						op=i;
+						continue;
+					}
+                case TOKEN_BOE:
+					if(currentTokenPriority>4){
+					currentTokenPriority=4;
+					op_type=TOKEN_BOE;
+					op=i;
+					continue;
+					}
+                case '<':
+					if(currentTokenPriority>4){
+					currentTokenPriority=4;
+					op_type='<';
+					op=i;
+					continue;
+					}
+                case '>':
+					if(currentTokenPriority>4){
+						currentTokenPriority=4;
+						op_type='>';
+						op=i;
+						continue;
+						}
+                case TOKEN_RS:
+					if(currentTokenPriority>5){
+						currentTokenPriority=5;
+						op_type=TOKEN_RS;
+						op=i;
+						continue;
+						}
+                case TOKEN_LS:
+					if(currentTokenPriority>5){
+						currentTokenPriority=5;
+						op_type=TOKEN_LS;
+						op=i;
+						continue;
+					}
+                case '+':
+					if(currentTokenPriority>6){
+						op_type='+';
+						currentTokenPriority=6;
+						op=i;
+						continue;
+						}
+                case '-':
+					if(currentTokenPriority>6){
+						currentTokenPriority=6;
+						op_type='-';
+						op=i;
+						continue;
+					}
+                case '*':
+					if(currentTokenPriority>7){						
+						currentTokenPriority=7;
+						op_type='*';
+						op=i;
+						continue;
+						}
+                case '/':
+					if(currentTokenPriority>7){
+						op=i;op_type='/';
+						currentTokenPriority=7;
+						continue;
+						}
+                case '!':
+					if(currentTokenPriority>8){
+						currentTokenPriority=8;
+						op_type='!';
+						op=i;
+						continue;
+					}
+                case TOKEN_NEG:
+					if(currentTokenPriority>9){
+						currentTokenPriority=9;
+						op_type=TOKEN_NEG;
+						op=i;
+						continue;
+						}
+                case TOKEN_POI:
+					if(currentTokenPriority>9){
+						currentTokenPriority=9;
+						op_type=TOKEN_POI;
+						op=i;						
+						continue;
+						}
+                default:
+					continue;
+            }
 		}
 		//分成子串，进行计算
 		uint32_t val1 = eval(p, op - 1);
