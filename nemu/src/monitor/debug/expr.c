@@ -9,17 +9,19 @@
 enum {
 	//NOTYPE = 256, EQ
 	/* TODO: Add more token types */
-	TOKEN_NOTYPE = 256, TOKEN_HEX, TOKEN_DEC, TOKEN_REG,TOKEN_LB , TOKEN_RB ,
-	TOKEN_OR  ,
-	TOKEN_AND  ,
-	TOKEN_NEQ  , TOKEN_EQ  ,
-	TOKEN_BOE  , TOKEN_LOE  ,	TOKEN_L  , TOKEN_B  ,
-	TOKEN_LS  , TOKEN_RS  , 
+	TOKEN_NOTYPE = 256, 
+	TOKEN_HEX, TOKEN_DEC, TOKEN_REG,
+	TOKEN_EQ, TOKEN_NEQ ,
+	TOKEN_AND  , TOKEN_OR  ,
+	TOKEN_LB , TOKEN_RB ,
+ 	TOKEN_NEG  ,      //-代表负数 
+	TOKEN_POI  ,       //指针解引用
+	TOKEN_LS  , TOKEN_RS  , TOKEN_BOE, TOKEN_LOE,
+
+	TOKEN_L  , TOKEN_B  ,
 	TOKEN_ADD  , //TOKEN_SUB  ,
 	TOKEN_DIV  , //TOKEN_MUL  ,
 	TOKEN_NOT  ,
- 	TOKEN_NEG  ,      //-代表负数 
-	TOKEN_POI  ,       //指针解引用
 };
 
 static struct rule {
@@ -350,8 +352,9 @@ uint32_t eval(int p,int q){
 						}
                 case TOKEN_DIV:
 					if(currentTokenPriority>7){
-						op=i;op_type=TOKEN_DIV;
 						currentTokenPriority=7;
+						op_type=TOKEN_DIV;
+						op=i;						
 						continue;
 						}
                 case TOKEN_NOT:
