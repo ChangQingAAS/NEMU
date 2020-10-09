@@ -126,7 +126,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -260,84 +260,84 @@ uint32_t eval(int p,int q){
 			// }
 			switch(tokens[i].type){
                 case TOKEN_OR:
-					if(currentTokenPriority>1){
+					if(currentTokenPriority>=1){
 						currentTokenPriority=1;
 						op_type=TOKEN_OR;
 						op=i;
 						continue;
 					}
                 case TOKEN_AND:
-					if(currentTokenPriority>2){
+					if(currentTokenPriority>=2){
 						currentTokenPriority=2;
 						op_type=TOKEN_AND;
 						op=i;
 						continue;
 					}
                 case TOKEN_NEQ:
-					if(currentTokenPriority>3){
+					if(currentTokenPriority>=3){
 						currentTokenPriority=3;
 						op_type=TOKEN_NEQ;
 						op=i;
 						continue;
 					}
                 case TOKEN_EQ:
-					if(currentTokenPriority>3){
+					if(currentTokenPriority>=3){
 						currentTokenPriority=3;
 						op_type=TOKEN_EQ;
 						op=i;
 						continue;
 					}
                 case TOKEN_LOE:
-					if(currentTokenPriority>4){
+					if(currentTokenPriority>=4){
 						currentTokenPriority=4;
 						op_type=TOKEN_LOE;
 						op=i;
 						continue;
 					}
                 case TOKEN_BOE:
-					if(currentTokenPriority>4){
+					if(currentTokenPriority>=4){
 					currentTokenPriority=4;
 					op_type=TOKEN_BOE;
 					op=i;
 					continue;
 					}
                 case TOKEN_L:
-					if(currentTokenPriority>4){
+					if(currentTokenPriority>=4){
 					currentTokenPriority=4;
 					op_type=TOKEN_L;
 					op=i;
 					continue;
 					}
                 case TOKEN_B:
-					if(currentTokenPriority>4){
+					if(currentTokenPriority>=4){
 						currentTokenPriority=4;
 						op_type=TOKEN_B;
 						op=i;
 						continue;
 						}
                 case TOKEN_RS:
-					if(currentTokenPriority>5){
+					if(currentTokenPriority>=5){
 						currentTokenPriority=5;
 						op_type=TOKEN_RS;
 						op=i;
 						continue;
 						}
                 case TOKEN_LS:
-					if(currentTokenPriority>5){
+					if(currentTokenPriority>=5){
 						currentTokenPriority=5;
 						op_type=TOKEN_LS;
 						op=i;
 						continue;
 					}
                 case TOKEN_ADD:
-					if(currentTokenPriority>6){
+					if(currentTokenPriority>=6){
 						op_type=TOKEN_ADD;
 						currentTokenPriority=6;
 						op=i;
 						continue;
 						}
                 case '-':
-					if(currentTokenPriority>6){
+					if(currentTokenPriority>=6){
 						currentTokenPriority=6;
 						op_type='-';
 						op=i;
@@ -359,21 +359,21 @@ uint32_t eval(int p,int q){
 						continue;
 						}
                 case TOKEN_NOT:
-					if(currentTokenPriority>8){
+					if(currentTokenPriority>=8){
 						currentTokenPriority=8;
 						op_type=TOKEN_NOT;
 						op=i;
 						continue;
 					}
                 case TOKEN_NEG:
-					if(currentTokenPriority>9){
+					if(currentTokenPriority>=9){
 						currentTokenPriority=9;
 						op_type=TOKEN_NEG;
 						op=i;
 						continue;
 						}
                 case TOKEN_POI:
-					if(currentTokenPriority>9){
+					if(currentTokenPriority>=9){
 						currentTokenPriority=9;
 						op_type=TOKEN_POI;
 						op=i;						
@@ -387,7 +387,7 @@ uint32_t eval(int p,int q){
 		//分成子串，进行计算
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op +1, q);
-		printf("op_type is %d\n",op_type);
+		// printf("current op_type is %d\n",op_type);
 		switch(op_type){
 			case TOKEN_OR:return val1||val2;
             case TOKEN_AND:return val1&&val2;
