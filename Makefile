@@ -51,12 +51,16 @@ clean: clean-cpp
 	-rm -f *log.txt entry $(FLOAT) 2> /dev/null
 
 
+count:
+	@echo Totally $(COUNT_L) lines of code in nemu of this branch except empty line
+	@echo Totally $(COUNT_ADD) lines added into the frame code 
+
 ##### some convinient rules #####
 
 USERPROG := obj/testcase/mov
 ENTRY := $(USERPROG)
-COUNT_L :=$(find . -name "*[.h|.c]" | xargs grep -Ev "^$" | wc -l)
-COUNT_ADD :=$(expr $(COUNT_L)-2973)
+COUNT_L := $(shell find . -name "*[.h|.c]" | xargs grep -Ev "^$$" | wc -l)
+COUNT_ADD := $(shell expr $(COUNT_L) - 2973)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
@@ -76,5 +80,7 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
 
-count:$(nemu_BIN) entry
-	$(COUNT_L)
+count: $(nemu_BIN) entry
+	@echo Totally $(COUNT_L) lines of code in nemu of this branch except empty line
+	@echo Totally $(COUNT_ADD) lines added into the frame code 
+
