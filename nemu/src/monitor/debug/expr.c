@@ -344,7 +344,7 @@ uint32_t eval(int p,int q){
 						continue;
 					}
                 case TOKEN_DIV:
-					if(currentTokenPriority>7){
+					if(currentTokenPriority>=7){
 						currentTokenPriority=7;
 						op_type=TOKEN_DIV;
 						op=i;						
@@ -352,7 +352,7 @@ uint32_t eval(int p,int q){
 						}
 					break;
 				case '*':
-					if(currentTokenPriority>7){						
+					if(currentTokenPriority>=7){						
 						currentTokenPriority=7;
 						op_type = '*';
 						op=i;
