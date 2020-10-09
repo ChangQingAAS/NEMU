@@ -381,7 +381,7 @@ uint32_t eval(int p,int q){
                 default:
 					continue;
             }
-			printf("op_type is %d",op_type);
+			printf("op_type is %d\n",op_type);
 		}
 		//分成子串，进行计算
 		uint32_t val1 = eval(p, op - 1);
