@@ -9,18 +9,17 @@
 enum {
 	//NOTYPE = 256, EQ
 	/* TODO: Add more token types */
-	TOKEN_HEX, TOKEN_DEC, TOKEN_REG,
-	TOKEN_NOTYPE = 256, TOKEN_LB = 256, TOKEN_RB = 256,
-	TOKEN_OR = 256 - 10,
-	TOKEN_AND = 256 - 20,
-	TOKEN_NEQ = 256 - 29, TOKEN_EQ = 256 - 30,
-	TOKEN_BOE = 256 - 37, TOKEN_LOE = 256 -38,	TOKEN_L = 256 - 39, TOKEN_B = 256 -40,
-	TOKEN_LS = 256 - 49, TOKEN_RS = 256 -50, 
-	TOKEN_ADD = 256 - 59, TOKEN_SUB = 256 -60,
-	TOKEN_DIV = 256 -69, TOKEN_MUL = 256 -70,
-	TOKEN_NOT = 256 -79,
- 	TOKEN_NEG = 256 - 89,      //-代表负数 
-	TOKEN_POI = 256 - 90,       //指针解引用
+	TOKEN_NOTYPE = 256, TOKEN_HEX, TOKEN_DEC, TOKEN_REG,TOKEN_LB , TOKEN_RB ,
+	TOKEN_OR  ,
+	TOKEN_AND  ,
+	TOKEN_NEQ  , TOKEN_EQ  ,
+	TOKEN_BOE  , TOKEN_LOE  ,	TOKEN_L  , TOKEN_B  ,
+	TOKEN_LS  , TOKEN_RS  , 
+	TOKEN_ADD  , TOKEN_SUB  ,
+	TOKEN_DIV  , TOKEN_MUL  ,
+	TOKEN_NOT  ,
+ 	TOKEN_NEG  ,      //-代表负数 
+	TOKEN_POI  ,       //指针解引用
 };
 
 static struct rule {
@@ -303,14 +302,14 @@ uint32_t eval(int p,int q){
                 case '<':
 					if(currentTokenPriority>4){
 					currentTokenPriority=4;
-					op_type='<';
+					op_type=TOKEN_L;
 					op=i;
 					continue;
 					}
                 case '>':
 					if(currentTokenPriority>4){
 						currentTokenPriority=4;
-						op_type='>';
+						op_type=TOKEN_B;
 						op=i;
 						continue;
 						}
@@ -330,7 +329,7 @@ uint32_t eval(int p,int q){
 					}
                 case '+':
 					if(currentTokenPriority>6){
-						op_type='+';
+						op_type=TOKEN_ADD;
 						currentTokenPriority=6;
 						op=i;
 						continue;
@@ -338,27 +337,27 @@ uint32_t eval(int p,int q){
                 case '-':
 					if(currentTokenPriority>6){
 						currentTokenPriority=6;
-						op_type='-';
+						op_type=TOKEN_SUB;
 						op=i;
 						continue;
 					}
                 case '*':
 					if(currentTokenPriority>7){						
 						currentTokenPriority=7;
-						op_type='*';
+						op_type=TOKEN_MUL;
 						op=i;
 						continue;
 						}
                 case '/':
 					if(currentTokenPriority>7){
-						op=i;op_type='/';
+						op=i;op_type=TOKEN_DIV;
 						currentTokenPriority=7;
 						continue;
 						}
                 case '!':
 					if(currentTokenPriority>8){
 						currentTokenPriority=8;
-						op_type='!';
+						op_type=TOKEN_NOT;
 						op=i;
 						continue;
 					}
@@ -390,15 +389,15 @@ uint32_t eval(int p,int q){
             case TOKEN_EQ:return val1==val2;
             case TOKEN_LOE:return val1<=val2;
             case TOKEN_BOE:return val1>=val2;
-            case '<':return val1<val2;
-            case '>':return val1>val2;
+            case TOKEN_L:return val1<val2;
+            case TOKEN_B:return val1>val2;
             case TOKEN_RS:return val1>>val2;
             case TOKEN_LS:return val1<<val2;
-            case '+':return val1+val2;
-            case '-':return val1-val2;
-            case '*':return val1*val2;
-            case '/':return val1/val2;
-            case '!':return !val2;
+            case TOKEN_ADD:return val1+val2;
+            case TOKEN_SUB:return val1-val2;
+            case TOKEN_MUL:return val1*val2;
+            case TOKEN_DIV:return val1/val2;
+            case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
             case TOKEN_POI:return swaddr_read(val2,4);
             default:assert(0);
