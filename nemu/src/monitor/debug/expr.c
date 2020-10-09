@@ -9,8 +9,7 @@
 enum {
 	//NOTYPE = 256, EQ
 	/* TODO: Add more token types */
-	TOKEN_HEX, TOKEN_DEC, TOKEN_REG, 
-
+	TOKEN_HEX, TOKEN_DEC, TOKEN_REG,
 	TOKEN_NOTYPE = 256, TOKEN_LB = 256, TOKEN_RB = 256,
 	TOKEN_OR = 256 - 10,
 	TOKEN_AND = 256 - 20,
