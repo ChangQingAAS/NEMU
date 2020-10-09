@@ -15,8 +15,8 @@ enum {
 	TOKEN_NEQ  , TOKEN_EQ  ,
 	TOKEN_BOE  , TOKEN_LOE  ,	TOKEN_L  , TOKEN_B  ,
 	TOKEN_LS  , TOKEN_RS  , 
-	TOKEN_ADD  , TOKEN_SUB  ,
-	TOKEN_DIV  , TOKEN_MUL  ,
+	TOKEN_ADD  , //TOKEN_SUB  ,
+	TOKEN_DIV  , //TOKEN_MUL  ,
 	TOKEN_NOT  ,
  	TOKEN_NEG  ,      //-代表负数 
 	TOKEN_POI  ,       //指针解引用
@@ -41,8 +41,8 @@ static struct rule {
 
 	
   	{"\\+", TOKEN_ADD},         // 使用单引号
-  	{"-", TOKEN_SUB},          
-  	{"\\*", TOKEN_MUL},
+  	{"-", '-'},          
+  	{"\\*", '*'},
   	{"\\/", TOKEN_DIV},
 
   	{"\\(", TOKEN_LB},
@@ -299,14 +299,14 @@ uint32_t eval(int p,int q){
 					op=i;
 					continue;
 					}
-                case '<':
+                case TOKEN_L:
 					if(currentTokenPriority>4){
 					currentTokenPriority=4;
 					op_type=TOKEN_L;
 					op=i;
 					continue;
 					}
-                case '>':
+                case TOKEN_B:
 					if(currentTokenPriority>4){
 						currentTokenPriority=4;
 						op_type=TOKEN_B;
@@ -327,7 +327,7 @@ uint32_t eval(int p,int q){
 						op=i;
 						continue;
 					}
-                case '+':
+                case TOKEN_ADD:
 					if(currentTokenPriority>6){
 						op_type=TOKEN_ADD;
 						currentTokenPriority=6;
@@ -337,24 +337,24 @@ uint32_t eval(int p,int q){
                 case '-':
 					if(currentTokenPriority>6){
 						currentTokenPriority=6;
-						op_type=TOKEN_SUB;
+						op_type='-';
 						op=i;
 						continue;
 					}
                 case '*':
 					if(currentTokenPriority>7){						
 						currentTokenPriority=7;
-						op_type=TOKEN_MUL;
+						op_type = '*';
 						op=i;
 						continue;
 						}
-                case '/':
+                case TOKEN_DIV:
 					if(currentTokenPriority>7){
 						op=i;op_type=TOKEN_DIV;
 						currentTokenPriority=7;
 						continue;
 						}
-                case '!':
+                case TOKEN_NOT:
 					if(currentTokenPriority>8){
 						currentTokenPriority=8;
 						op_type=TOKEN_NOT;
@@ -394,8 +394,8 @@ uint32_t eval(int p,int q){
             case TOKEN_RS:return val1>>val2;
             case TOKEN_LS:return val1<<val2;
             case TOKEN_ADD:return val1+val2;
-            case TOKEN_SUB:return val1-val2;
-            case TOKEN_MUL:return val1*val2;
+            case '-':return val1-val2;
+            case '*':return val1*val2;
             case TOKEN_DIV:return val1/val2;
             case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
@@ -416,13 +416,13 @@ uint32_t expr(char *e, bool *success) {
 		int i;
     	for( i=0;i<nr_token;i++)  //负号的判断 当其为第一个符号，或左边为(时,或按照讲义左边可能为负号(--1)
         {
-				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == '('||tokens[i-1].type == TOKEN_NEG ||tokens[i-1].type == '-' ||tokens[i-1].type == '+'
-																	 ||tokens[i-1].type == '*'  ||tokens[i-1].type == '/'))
+				if(tokens[i].type == '-' &&(i==0||tokens[i-1].type == TOKEN_LB||tokens[i-1].type == TOKEN_NEG ||tokens[i-1].type == '-' ||tokens[i-1].type == TOKEN_ADD
+																	 ||tokens[i-1].type == '*'  ||tokens[i-1].type == TOKEN_RB))
 				tokens[i].type = TOKEN_NEG;
 		}
 
     	for(i=0;i<nr_token;i++)
-        	if(tokens[i].type == '*' &&(i==0||(tokens[i-1].type!=TOKEN_DEC && tokens[i-1].type!=TOKEN_HEX && tokens[i-1].type!=')')))
+        	if(tokens[i].type == '*' &&(i==0||(tokens[i-1].type!=TOKEN_DEC && tokens[i-1].type!=TOKEN_HEX && tokens[i-1].type!=TOKEN_RB)))
                tokens[i].type = TOKEN_POI;
 	}
   return eval(0, nr_token-1);
