@@ -190,7 +190,7 @@ bool check_parentheses(int p, int q){
 }
 
 uint32_t eval(int p,int q){
-    if(p>q){   //缺省:9+   ;    --9
+    if(p>q){   //缺省的情况，例如:9+   ;    --9
         // printf("Bad expression\n");
         return 0;
         // assert(0);
@@ -205,16 +205,15 @@ uint32_t eval(int p,int q){
 		else if(tokens[p].type == TOKEN_DEC)
 			sscanf(tokens[p].str,"%d",&result);
 		else if(tokens[p].type == TOKEN_REG){
-            char tmp[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
+            char regName[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
             int i;
 			for( i=0;i<8;i++)
-                if(!strcmp(tmp,regsl[i])){return cpu.gpr[i]._32;}
+                if(!strcmp(regName,regsl[i])){return cpu.gpr[i]._32;}
             for( i=0;i<8;i++)
-                if(!strcmp(tmp,regsw[i])){return cpu.gpr[i]._16;}
+                if(!strcmp(regName,regsw[i])){return cpu.gpr[i]._16;}
             for( i=0;i<8;i++) 
-                if(!strcmp(tmp,regsb[i])){return cpu.gpr[i%4]._8[i/4];}
-	    	char teip[3]="eip";
-	    	if(strcmp(tmp,teip))return cpu.eip;
+                if(!strcmp(regName,regsb[i])){return cpu.gpr[i%4]._8[i/4];}
+	    	if(strcmp(regName,"eip"))return cpu.eip;
         }
         else assert(0);
 		return result;
@@ -246,6 +245,7 @@ uint32_t eval(int p,int q){
 				leftBracket = true;
 				continue;
 			}
+			//求出当前token的优先级，以便于拆分表达式
 			switch(tokens[i].type){
                 case TOKEN_OR:
 					if(currentTokenPriority>1){currentTokenPriority=1;op=i;op_type=TOKEN_OR;continue;}
