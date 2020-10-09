@@ -44,8 +44,8 @@ static struct rule {
 	
   	{"\\+", TOKEN_ADD},         // 使用单引号
   	{"-", '-'},          
-  	{"\\*", '*'},
   	{"\\/", TOKEN_DIV},
+	  	{"\\*", '*'},
 
   	{"\\(", TOKEN_LB},
   	{"\\)", TOKEN_RB},
