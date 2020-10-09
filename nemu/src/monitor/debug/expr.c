@@ -381,11 +381,12 @@ uint32_t eval(int p,int q){
                 default:
 					continue;
             }
-			printf("op_type is %d\n",op_type);
+			
 		}
 		//分成子串，进行计算
 		uint32_t val1 = eval(p, op - 1);
 		uint32_t val2 = eval(op +1, q);
+		printf("op_type is %d\n",op_type);
 		switch(op_type){
 			case TOKEN_OR:return val1||val2;
             case TOKEN_AND:return val1&&val2;
