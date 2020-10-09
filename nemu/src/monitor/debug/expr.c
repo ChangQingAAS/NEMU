@@ -172,7 +172,7 @@ bool check_parentheses(int p, int q){
 			else if(tokens[i].str[0] == ')'){
 				rightBracketCount++;
 				if(leftBracketCount == rightBracketCount && i != q){
-					printf("leftBracketCount isn't equal to rightBracketCount!\n");
+					// printf("leftBracketCount isn't equal to rightBracketCount!\n");
 					return false;	
 				}
 			}
