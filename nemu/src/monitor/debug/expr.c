@@ -9,12 +9,19 @@
 enum {
 	//NOTYPE = 256, EQ
 	/* TODO: Add more token types */
-	TOKEN_NOTYPE = 256, TOKEN_HEX, TOKEN_DEC, TOKEN_REG, TOKEN_EQ, TOKEN_NEQ, 
-  	TOKEN_AND, TOKEN_OR,
- 	TOKEN_NEG,      //-代表负数
-  	TOKEN_POI,       //指针解引用
-  	TOKEN_LS, TOKEN_RS, 
-	TOKEN_BOE, TOKEN_LOE
+	TOKEN_HEX, TOKEN_DEC, TOKEN_REG, 
+
+	TOKEN_NOTYPE = 256, TOKEN_LB = 256, TOKEN_RB = 256,
+	TOKEN_OR = 256 - 10,
+	TOKEN_AND = 256 - 20,
+	TOKEN_NEQ = 256 - 29, TOKEN_EQ = 256 - 30,
+	TOKEN_BOE = 256 - 37, TOKEN_LOE = 256 -38,	TOKEN_L = 256 - 39, TOKEN_B = 256 -40,
+	TOKEN_LS = 256 - 49, TOKEN_RS = 256 -50, 
+	TOKEN_ADD = 256 - 59, TOKEN_SUB = 256 -60,
+	TOKEN_DIV = 256 -69, TOKEN_MUL = 256 -70,
+	TOKEN_NOT = 256 -79,
+ 	TOKEN_NEG = 256 - 89,      //-代表负数 
+	TOKEN_POI = 256 - 90,       //指针解引用
 };
 
 static struct rule {
@@ -23,12 +30,11 @@ static struct rule {
 } rules[] = {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level优先级 of different rules.
-	 */
-
+	 * 
 	//{" +",	NOTYPE},				// spaces
 	//{"\\+", '+'},					// plus
 	//{"==", EQ}						// equal
-
+	*/
 	{" +", TOKEN_NOTYPE},    // spaces
   	{"0x[0-9A-Fa-f][0-9A-Fa-f]*", TOKEN_HEX},
   	// {"0|[1-9][0-9]*", TOKEN_DEC},
@@ -36,13 +42,13 @@ static struct rule {
   	{"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TOKEN_REG},
 
 	
-  	{"\\+", '+'},         // 使用单引号
-  	{"-", '-'},          
-  	{"\\*", '*'},
-  	{"\\/", '/'},
+  	{"\\+", TOKEN_ADD},         // 使用单引号
+  	{"-", TOKEN_SUB},          
+  	{"\\*", TOKEN_MUL},
+  	{"\\/", TOKEN_DIV},
 
-  	{"\\(", '('},
-  	{"\\)", ')'},
+  	{"\\(", TOKEN_LB},
+  	{"\\)", TOKEN_RB},
 	
   	{"==", TOKEN_EQ},         
   	{"!=", TOKEN_NEQ},
@@ -50,16 +56,16 @@ static struct rule {
 	{"&&", TOKEN_AND},
   	{"\\|\\|", TOKEN_OR},
 	//TOKEN_NEG and TOKEN_POI is implement in expr();
-  	{"!", '!'},
+  	{"!", TOKEN_NOT},
 
   	// 注意前缀问题 >=识别应在>前面 
   	// 类似的 十进制和十六进制位置
   	{"<<", TOKEN_LS},
   	{">>", TOKEN_RS},
   	{">=", TOKEN_BOE},
-  	{">", '>'},
+  	{">", TOKEN_L},
   	{"<=", TOKEN_LOE},
-  	{"<", '<'}
+  	{"<", TOKEN_B}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
