@@ -170,7 +170,7 @@ static int cmd_x(char *args) {
                 printf("Lack of parameter!\n");
                 return 0;
         }
-         printf("expression is %s\n",expression);//测试能否输出expr
+        //  printf("expression is %s\n",expression);//测试能否输出expr
 
 	bool *success=false;
 	// char *str;
