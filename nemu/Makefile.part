@@ -12,10 +12,7 @@ $(nemu_BIN): $(nemu_OBJS)
 
 PP_FILES := $(filter nemu/src/cpu/decode/%.c nemu/src/cpu/exec/%.c, $(nemu_CFILES))
 PP_TARGET := $(PP_FILES:.c=.i)
-COUNT_NEMU_Lines := $(shell  find . -name "*[.h|.c]" | xargs grep -Ev "^$$" | wc -l)
-COUNT_NEMU_Lines_ADD := $(shell expr $(COUNT_NEMU_Lines) - 2973)
-COUNT_NEMU_ALLLines := $(shell  find . -name "*[.h|.c]" | xargs cat | wc  -l)
-COUNT_NEMU_ALLLines_ADD := $(shell expr $(COUNT_NEMU_ALLLines) - 3736)
+
 
 .PHONY: $(PP_TARGET)
 
@@ -26,12 +23,4 @@ cpp: $(PP_TARGET)
 
 clean-cpp:
 	-@rm -f $(PP_TARGET) 2> /dev/null
-	
-##### rules for counting lines of .c/.h in nemu #####
-count:
-	@echo There are $(COUNT_NEMU_Lines) lines of code in nemu of this branch except empty line
-	@echo There are $(COUNT_NEMU_Lines_ADD) lines added into the frame code
 
-countall:
-	@echo There are $(COUNT_NEMU_ALLLines) lines of code in nemu of this branch
-	@echo There are $(COUNT_NEMU_ALLLines_ADD) lines added into the frame code
