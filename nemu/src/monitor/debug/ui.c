@@ -120,9 +120,9 @@ static int cmd_info(char *args) {
                                         printf("%s\t\t0x%08x\t\t%d\n",regsl[j],cpu.gpr[j]._32,cpu.gpr[j]._32);
                                 printf("%s\t\t0x%08x\t\t%d\n", "eip", cpu.eip, cpu.eip);
                                 for(j=0;j<8;j++) 
-                                        printf("%s\t\t0x%04x\t\t%d\n",regsw[j],cpu.gpr[j]._16,cpu.gpr[j]._16);
+                                        printf("%s\t\t0x%04x\t\t\t%d\n",regsw[j],cpu.gpr[j]._16,cpu.gpr[j]._16);
                                 for(j=0;j<8;j++) 
-                                        printf("%s\t\t0x%02x\t\t%d\n",regsb[j],cpu.gpr[j%4]._8[j/4],cpu.gpr[j%4]._8[j/4]);
+                                        printf("%s\t\t0x%02x\t\t\t%d\n",regsb[j],cpu.gpr[j%4]._8[j/4],cpu.gpr[j%4]._8[j/4]);
                                 return 0;
                         }
                         else if(strcmp(arg, subcmd[1]) == 0) //'w'打印监视点信息
