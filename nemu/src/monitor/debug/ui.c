@@ -117,7 +117,8 @@ static int cmd_info(char *args) {
                         {
                                 int j;
                                 for(j=0;j<8;j++)
-                                        printf("%s\t\t0x%08x\n",regsl[j],cpu.gpr[j]._32);
+                                        printf("%s\t\t0x%08x\t\t%d\n",regsl[j],cpu.gpr[j]._32,cpu.gpr[j]._32);
+                                printf("%s\t\t0x%08x\t\t%d\n", "eip", cpu.eip, cpu.eip);
                                 for(j=0;j<8;j++) 
                                         printf("%s\t\t0x%04x\n",regsw[j],cpu.gpr[j]._16);
                                 for(j=0;j<8;j++) 
