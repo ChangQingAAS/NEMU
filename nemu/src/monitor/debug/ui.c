@@ -98,11 +98,11 @@ static int cmd_si(char *args){
                 args = "1";
         }
         int singleStepRunNum = atoi(args);//atoi字符转数字
-        // printf("%-10d\n",singleStepRunNum);
+        cpu_exec(singleStepRunNum);
         ///程序单步执行N条指令后暂停
-        int i;
-        for(i = 0; i<singleStepRunNum;i++)
-                cpu_exec(1);
+        //int i;
+        // for(i = 0; i<singleStepRunNum;i++)
+        //         cpu_exec(1);
         
         return 0;
 }
