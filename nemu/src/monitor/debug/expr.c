@@ -46,6 +46,7 @@ static struct rule {
   	{"-", '-'},        //45
 	{"\\*", '*'},  //42
   	{"\\/", TOKEN_DIV},
+	{"%",'%'},
 	
   	{"\\(", TOKEN_LB},
   	{"\\)", TOKEN_RB},
@@ -351,6 +352,14 @@ uint32_t eval(int p,int q){
 						continue;
 						}
 					break;
+					case '%':
+					if(currentTokenPriority>=7){
+						currentTokenPriority=7;
+						op_type='%';
+						op=i;						
+						continue;
+						}
+					break;
 				case '*':
 					if(currentTokenPriority>=7){						
 						currentTokenPriority=7;
@@ -402,6 +411,7 @@ uint32_t eval(int p,int q){
             case TOKEN_ADD:return val1+val2;
             case '-':return val1-val2;
 		    case '*':return val1*val2;
+			case '%':return val1%val2;
 			case TOKEN_DIV:return val1/val2;
             case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
