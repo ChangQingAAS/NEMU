@@ -14,17 +14,10 @@ void cpu_exec(uint32_t);
 char* rl_gets() {
 	static char *line_read = NULL;
 
-<<<<<<< HEAD
-	if (line_read) {
-		free(line_read);
-		line_read = NULL;
-	}
-=======
         if (line_read) {
                 free(line_read);
                 line_read = NULL;
         }
->>>>>>> PA1
 
 	line_read = readline("(nemu) ");
 
@@ -35,18 +28,6 @@ char* rl_gets() {
 	return line_read;
 }
 
-<<<<<<< HEAD
-static int cmd_c(char *args) {
-	cpu_exec(-1);
-	return 0;
-}
-
-static int cmd_q(char *args) {
-	return -1;
-}
-
-static int cmd_help(char *args);
-=======
 static int cmd_help(char *args);
 static int cmd_c(char *args);
 static int cmd_q(char *args);
@@ -56,59 +37,28 @@ static int cmd_x(char *args);
 static int cmd_p(char *args);
 static int cmd_w(char *args);
 static int cmd_d(char *args);
->>>>>>> PA1
 
 static struct {
 	char *name;
 	char *description;
 	int (*handler) (char *);
 } cmd_table [] = {
-<<<<<<< HEAD
-	{ "help", "Display informations about all supported commands", cmd_help },
-	{ "c", "Continue the execution of the program", cmd_c },
-	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
-=======
         { "help", "Display informations about all supported commands", cmd_help },
         { "c", "Continue the execution of the program", cmd_c },
         { "q", "Exit NEMU", cmd_q },
         /* TODO: Add more commands */
         {"si","Run N single steps",cmd_si},
         { "info", "Print regs' or watchpoints' state", cmd_info },
-        { "x", "Scan the memory", cmd_x },
-        {"p","Evaluate a expression", cmd_p},
-        { "w", "Set a watchpoint", cmd_w },
-        { "d", "Delete a watchpoint", cmd_d }
->>>>>>> PA1
-
+        { "x", "Scan the mem", cmd_x },
+        { "p", "Expression evaluation", cmd_p },
+        { "w", "Set watchpoint", cmd_w },
+        { "d", "Delete watchpoint", cmd_d }
 };
-
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
 static int cmd_help(char *args) {
-<<<<<<< HEAD
-	/* extract the first argument */
-	char *arg = strtok(NULL, " ");
-	int i;
-
-	if(arg == NULL) {
-		/* no argument given */
-		for(i = 0; i < NR_CMD; i ++) {
-			printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-		}
-	}
-	else {
-		for(i = 0; i < NR_CMD; i ++) {
-			if(strcmp(arg, cmd_table[i].name) == 0) {
-				printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-				return 0;
-			}
-		}
-		printf("Unknown command '%s'\n", arg);
-	}
-	return 0;
-=======
         /* extract the first argument */
         char *arg = strtok(NULL, " ");//第一次用参数，第二次用NULL
         int i;
@@ -233,7 +183,6 @@ static int cmd_x(char *args) {
                 addr = addr+4;
         }
         return 0;
->>>>>>> PA1
 }
 
 static int cmd_p(char *args) {
@@ -292,18 +241,6 @@ void ui_mainloop() {
 		sdl_clear_event_queue();
 #endif
 
-<<<<<<< HEAD
-		int i;
-		for(i = 0; i < NR_CMD; i ++) {
-			if(strcmp(cmd, cmd_table[i].name) == 0) {
-				if(cmd_table[i].handler(args) < 0) { return; }
-				break;
-			}
-		}
-
-		if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
-	}
-=======
                 int i;
                 for(i = 0; i < NR_CMD; i ++) {
                         if(strcmp(cmd, cmd_table[i].name) == 0) {
@@ -314,5 +251,4 @@ void ui_mainloop() {
 
                 if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
         }
->>>>>>> PA1
 }

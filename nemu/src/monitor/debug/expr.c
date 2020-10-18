@@ -9,8 +9,6 @@
 enum {
 	//NOTYPE = 256, EQ
 	/* TODO: Add more token types */
-<<<<<<< HEAD
-=======
 	TOKEN_NOTYPE = 256, 
 	TOKEN_HEX, TOKEN_DEC, TOKEN_REG,
 	TOKEN_EQ, TOKEN_NEQ ,
@@ -19,7 +17,6 @@ enum {
  	TOKEN_NEG  ,      //-代表负数 
 	TOKEN_POI  ,       //指针解引用
 	TOKEN_LS  , TOKEN_RS  , TOKEN_BOE, TOKEN_LOE,
->>>>>>> PA1
 
 	TOKEN_L  , TOKEN_B  ,
 	TOKEN_ADD  , //TOKEN_SUB  ,
@@ -32,14 +29,6 @@ static struct rule {
 	int token_type;
 } rules[] = {
 	/* TODO: Add more rules.
-<<<<<<< HEAD
-	 * Pay attention to the precedence level of different rules.
-	 */
-
-	{" +",	NOTYPE},				// spaces
-	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
-=======
 	 * Pay attention to the precedence level优先级 of different rules.
 	 * 
 	//{" +",	NOTYPE},				// spaces
@@ -78,7 +67,6 @@ static struct rule {
   	{">", TOKEN_L},
   	{"<=", TOKEN_LOE},
   	{"<", TOKEN_B}
->>>>>>> PA1
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
