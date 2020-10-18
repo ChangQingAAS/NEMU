@@ -54,7 +54,8 @@ clean: clean-cpp
 
 USERPROG := obj/testcase/mov
 ENTRY := $(USERPROG)
-
+COUNT_NEMU_Lines := $(shell cd nemu && find . -name "*[.h|.c]" | xargs cat | grep -Ev "^$$" | wc -l)
+COUNT_NEMU_Lines_ADD := $(shell expr $(COUNT_NEMU_Lines) - 2973)
 COUNT_NEMU_ALLLines := $(shell cd nemu && find . -name "*[.h|.c]" | xargs cat | wc  -l)
 COUNT_NEMU_ALLLines_ADD := $(shell expr $(COUNT_NEMU_ALLLines) - 3736)
 
@@ -78,8 +79,6 @@ submit: clean
 
 ##### rules for counting lines of .c/.h in nemu #####
 count:
-	COUNT_NEMU_Lines := $(shell cd nemu && find . -name "*[.h|.c]" | xargs cat | grep -Ev "^$$" | wc -l)
-	COUNT_NEMU_Lines_ADD := $(shell expr $(COUNT_NEMU_Lines) - 2973)
 	@echo There are $(COUNT_NEMU_Lines) lines of code in nemu of this branch except empty line
 	@echo There are $(COUNT_NEMU_Lines_ADD) lines added into the frame code
 
