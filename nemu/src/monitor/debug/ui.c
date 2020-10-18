@@ -192,9 +192,7 @@ static int cmd_p(char *args) {
                 return 0;
         }
         uint32_t computedResult = expr(args, success);
-        
         printf("0x%08x(%d)\n", computedResult, computedResult); 
-
         return 0;
 }
 
