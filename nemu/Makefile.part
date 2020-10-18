@@ -13,6 +13,7 @@ $(nemu_BIN): $(nemu_OBJS)
 PP_FILES := $(filter nemu/src/cpu/decode/%.c nemu/src/cpu/exec/%.c, $(nemu_CFILES))
 PP_TARGET := $(PP_FILES:.c=.i)
 
+
 .PHONY: $(PP_TARGET)
 
 $(PP_TARGET): %.i: %.c
@@ -22,3 +23,4 @@ cpp: $(PP_TARGET)
 
 clean-cpp:
 	-@rm -f $(PP_TARGET) 2> /dev/null
+
