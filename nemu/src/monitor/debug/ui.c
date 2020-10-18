@@ -204,9 +204,9 @@ static int cmd_w(char *args){
         bool *success = false;
         WP* newWatchpoint =  new_watchpoint();
         strcpy(newWatchpoint->expression,args);
-        newWatchpoint->address = expr(args,success);
-        newWatchpoint->value = swaddr_read(newWatchpoint->address,4);
-        printf("Set watchpoint NO.%d on 0x%08x\n",newWatchpoint->NO,newWatchpoint->address);
+        newWatchpoint->old_address = expr(args,success);
+        newWatchpoint->value = swaddr_read(newWatchpoint->old_address,4);
+        printf("Set watchpoint NO.%d on 0x%08x\n",newWatchpoint->NO,newWatchpoint->old_address);
         return 0;
 }
 

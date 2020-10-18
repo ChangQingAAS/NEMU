@@ -89,12 +89,13 @@ void show_watchpoint(){
 	
     while(temp!=NULL)
     {
-        printf("%d\t\t0x%08x\t0x%08x\t%s\n",temp->NO, temp->value, temp->address,temp->expression);
+        printf("%d\t\t0x%08x\t0x%08x\t%s\n",temp->NO, temp->value, temp->old_address,temp->expression);
         temp = temp->next;
     }
 }
 
-bool check_watchpoint(){
+//我的检查监视点函数
+/*bool check_watchpoint(){
 	//有监视点变动，则返回true
 	WP *temp = head;
     bool change = false;
@@ -105,7 +106,8 @@ bool check_watchpoint(){
         uint32_t newAddress = expr(temp->expression,success); 
         if(newAddress != temp->address)
         {
-            printf("Watchpoint %d: %s\n",temp->NO,temp->expression);
+            printf("\nHint watchpoint %d at address 0x%08x, expr = %s\n", temp->NO, cpu.eip - instr_len, temp->expression);
+            //printf("Hint watchpoint %d: %s\n",temp->NO,temp->expression);
             printf("Old value = 0x%08x\nNew value = 0x%08x\n",temp->address,newAddress);
             temp->address = newAddress;//赋新值
             change = true; 
@@ -115,4 +117,17 @@ bool check_watchpoint(){
     if(change)
         return true;
     return false;
+}*/
+//答案的检查监视点函数
+WP* scan_watchpoint() {
+	WP *temp = head;
+	for(; temp != NULL; temp = temp->next) {
+		bool *success = false;
+        temp->new_address = expr(temp->expression,success); 
+		if(temp->old_address != temp->new_address) {
+			return temp;
+		}
+	}
+
+	return NULL;
 }

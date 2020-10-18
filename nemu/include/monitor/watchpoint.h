@@ -9,7 +9,8 @@ typedef struct watchpoint {
 
 	/* TODO: Add more members if necessary */
 	char expression[100];
-  	swaddr_t address;
+  	swaddr_t new_address;
+	swaddr_t old_address;
 	swaddr_t value; 
 
 } WP;
@@ -17,5 +18,5 @@ typedef struct watchpoint {
 WP* new_watchpoint();
 void free_watchpoint(int watchpointNO);
 void show_watchpoint();
-bool check_watchpoint();
+WP* scan_watchpoint();
 #endif
