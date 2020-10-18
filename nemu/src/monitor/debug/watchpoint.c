@@ -128,6 +128,5 @@ WP* scan_watchpoint() {
 			return temp;
 		}
 	}
-
 	return NULL;
 }
