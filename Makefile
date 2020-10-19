@@ -52,7 +52,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG = obj/testcase/mov
+USERPROG = obj/testcase/mov-c
 ENTRY := $(USERPROG)
 COUNT_NEMU_Lines := $(shell cd nemu && find . -name "*[.h|.c]" | xargs cat | grep -Ev "^$$" | wc -l)
 COUNT_NEMU_Lines_ADD := $(shell expr $(COUNT_NEMU_Lines) - 2973)
