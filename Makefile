@@ -54,9 +54,9 @@ clean: clean-cpp
 
 USERPROG = obj/testcase/mov-c
 ENTRY := $(USERPROG)
-COUNT_NEMU_Lines := $(shell cd nemu && find . -name "*[.h|.c]" | xargs cat | grep -Ev "^$$" | wc -l)
+COUNT_NEMU_Lines := $(shell cat `find nemu -name '*.[ch]'` | grep -Ev "^$$" | wc -l)
 COUNT_NEMU_Lines_ADD := $(shell expr $(COUNT_NEMU_Lines) - 2973)
-COUNT_NEMU_ALLLines := $(shell cd nemu && find . -name "*[.h|.c]" | xargs cat | wc  -l)
+COUNT_NEMU_ALLLines := $(shell cat `find nemu -name '*.[ch]'` | wc -l)
 COUNT_NEMU_ALLLines_ADD := $(shell expr $(COUNT_NEMU_ALLLines) - 3736)
 
 entry: $(ENTRY)

@@ -6,7 +6,10 @@
 
 #define make_helper_v(name) \
 	make_helper(concat(name, _v)) { \
-		return (ops_decoded.is_operand_size_16 ? concat(name, _w) : concat(name, _l)) (eip); \
+	    if (unlikely(ops_decoded.is_data_size_16)) \
+    		return concat(name, _w)(eip); \
+        else \
+            return concat(name, _l)(eip); \
 	}
 
 #define do_execute concat4(do_, instr, _, SUFFIX)
@@ -15,7 +18,9 @@
 	make_helper(concat5(instr, _, type, _, SUFFIX)) { \
 		return idex(eip, concat4(decode_, type, _, SUFFIX), do_execute); \
 	}
-//my code
+
+/* add by ZBY */
+
 /* for CALL */
 #define do_execute_with_type(type) concat6(do_, instr, _, type, _, SUFFIX)
 #define make_instr_helper_with_type(type) \
@@ -41,7 +46,10 @@
     uint32_t __a = (uint32_t)(a), __b = (uint32_t)(b); \
     (__a & 0xffff0000) | ((__a + __b) & 0xffff); \
 })
-//my code
+
+
+
+
 extern char assembly[];
 #ifdef DEBUG
 #define print_asm(...) Assert(snprintf(assembly, 80, __VA_ARGS__) < 80, "buffer overflow!")
