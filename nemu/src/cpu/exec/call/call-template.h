@@ -5,8 +5,7 @@
 
 static void do_execute() {
          // push(ip)
-         // read operand address
-         // eip += relative address
+         cpu.eip += op_src->val;
 }
 make_instr_helper(i)
 
