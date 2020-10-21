@@ -10,10 +10,7 @@ typedef struct {
 	size_t size;
 	union {
 		uint32_t reg;
-		struct {
-    		swaddr_t addr;
-    		uint8_t sreg;
-        };
+		swaddr_t addr;
 		uint32_t imm;
 		int32_t simm;
 	};
@@ -23,8 +20,7 @@ typedef struct {
 
 typedef struct {
 	uint32_t opcode;
-	bool is_data_size_16;
-	bool is_addr_size_16;
+	bool is_operand_size_16;
 	Operand src, dest, src2;
 } Operands;
 

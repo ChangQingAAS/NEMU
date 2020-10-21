@@ -2,7 +2,7 @@
 
 #define instr shl
 
-static inline void do_execute () {
+static void do_execute () {
 	DATA_TYPE src = op_src->val;
 	DATA_TYPE dest = op_dest->val;
 
@@ -10,12 +10,9 @@ static inline void do_execute () {
 	dest <<= count;
 	OPERAND_W(op_dest, dest);
 
-	/* There is no need to update EFLAGS, since no other instructions 
-	 * in PA will test the flags updated by this instruction.
-	 */
-	INVF_ALU(); /* set flags to invalid, since we are too lazy to update EFLAGS */
-    WRITEF(ZF, !dest);
-    
+	/* TODO: Update EFLAGS. */
+	panic("please implement me");
+
 	print_asm_template2();
 }
 
