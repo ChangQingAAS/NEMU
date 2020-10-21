@@ -28,6 +28,8 @@
 #include "special/special.h"
 
 //my code....
+#include "arith/cmp.h"
+
 #include "ctrl-trans/call.h"
 #include "ctrl-trans/je.h"
 
