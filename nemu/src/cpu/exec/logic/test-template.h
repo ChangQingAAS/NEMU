@@ -11,8 +11,7 @@ static void do_execute () {
     ret ^= ret >> 4;
     ret ^= ret >> 2;
     ret ^= ret >> 1;
-    ret &= 1;
-    cpu.PF = !ret;
+    cpu.PF = !(ret & 1);
     print_asm_template2();
 }
 
