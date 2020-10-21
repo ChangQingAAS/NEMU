@@ -32,6 +32,8 @@
 
 #include "ctrl-trans/call.h"
 #include "ctrl-trans/je.h"
+#include "ctrl-trans/ret.h"
+
 
 #include "data-mov/push.h"
 #include "data-mov/pop.h"
