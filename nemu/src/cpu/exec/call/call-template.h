@@ -19,8 +19,4 @@ make_instr_helper(i)
 //     return len + 1;
 // } 
 
-
-
-// make_instr_helper(i)
-
 #include "cpu/exec/template-end.h"
