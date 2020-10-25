@@ -435,7 +435,7 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 
-	can = success;
+	// can = success;
 	/* TODO: Insert codes to evaluate the expression. */
 	if(nr_token!=1){  //只有一个符号时没必要区分
 		int i;
