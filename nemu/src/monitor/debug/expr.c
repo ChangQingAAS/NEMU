@@ -116,7 +116,7 @@ typedef struct token {
 
 Token tokens[32];
 int nr_token;//已识别出的token数量
-bool* success;
+bool* can;
 
 static bool make_token(char *e) {
 	int position = 0;
@@ -213,8 +213,8 @@ uint32_t eval(int p,int q){
 		// Return the value of the number(or the reg).
 		uint32_t result = 0;
 		if (tokens[p].type == TOKEN_MARK){
-			result = GetMarkValue(tokens[p].str, success);
-			if (*success == false) return 0;
+			result = GetMarkValue(tokens[p].str, can);
+			if (*can == false) return 0;
 		}
 		else if(tokens[p].type == TOKEN_HEX)
 			sscanf(tokens[p].str,"%x",&result);
@@ -420,7 +420,7 @@ uint32_t eval(int p,int q){
             case '-':return val1-val2;
 		    case '*':return val1*val2;
 			case '%':return val1%val2;
-			case TOKEN_DIV: if (val2 == 0) {*success = false; return 0;} else return val1 / val2; 
+			case TOKEN_DIV: if (val2 == 0) {*can = false; return 0;} else return val1 / val2; 
             case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
             case TOKEN_POI:return swaddr_read(val2,4);
@@ -435,7 +435,7 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 
-	// can = success;
+	can = success;
 	/* TODO: Insert codes to evaluate the expression. */
 	if(nr_token!=1){  //只有一个符号时没必要区分
 		int i;
