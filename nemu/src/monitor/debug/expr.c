@@ -203,7 +203,6 @@ bool check_parentheses(int p, int q){
 }
 
 uint32_t eval(int p,int q){
-	if (*can == false) return 0;
     if(p>q){   //缺省的情况，例如:9+   ;    --9
         *can = false;
         return 0;
