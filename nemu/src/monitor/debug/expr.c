@@ -204,7 +204,6 @@ bool check_parentheses(int p, int q){
 
 uint32_t eval(int p,int q){
     if(p>q){   //缺省的情况，例如:9+   ;    --9
-        *can = false;
         return 0;
         // assert(0);
     }
@@ -425,7 +424,7 @@ uint32_t eval(int p,int q){
             case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
             case TOKEN_POI:return swaddr_read(val2,4);
-            default: {*can = false; return 0;}
+            default:  return 0;
 		}
 	}
 }
