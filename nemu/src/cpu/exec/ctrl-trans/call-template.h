@@ -1,4 +1,3 @@
-// call-template.h
 #include "cpu/exec/template-start.h"
 
 #define instr call
@@ -22,5 +21,4 @@ make_helper(concat(call_rm_, SUFFIX)){
 	cpu.eip = imm - len - 1;
 	return len + 1;
 }
-
 #include "cpu/exec/template-end.h"

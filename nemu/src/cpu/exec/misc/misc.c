@@ -7,7 +7,7 @@ make_helper(nop) {
 }
 
 make_helper(int3) {
-	void do_int3();
+        void do_int3();
 	do_int3();
 	print_asm("int3");
 

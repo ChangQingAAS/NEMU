@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <elf.h>
 
 enum {
 	//NOTYPE = 256, EQ
@@ -22,6 +23,7 @@ enum {
 	TOKEN_ADD  , //TOKEN_SUB  ,
 	TOKEN_DIV  , //TOKEN_MUL  ,
 	TOKEN_NOT  ,
+	TOKEN_MARK,
 };
 
 static struct rule {
@@ -66,10 +68,13 @@ static struct rule {
   	{">=", TOKEN_BOE},
   	{">", TOKEN_L},
   	{"<=", TOKEN_LOE},
-  	{"<", TOKEN_B}
+  	{"<", TOKEN_B},
+	{"[a-zA-Z][a-zA-Z0-9_]+", TOKEN_MARK},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
+
+uint32_t GetMarkValue(char *str,bool *success);
 
 static regex_t re[NR_REGEX];
 
@@ -111,7 +116,7 @@ typedef struct token {
 
 Token tokens[32];
 int nr_token;//已识别出的token数量
-
+bool* can;
 
 static bool make_token(char *e) {
 	int position = 0;
@@ -198,8 +203,9 @@ bool check_parentheses(int p, int q){
 }
 
 uint32_t eval(int p,int q){
+	if (*can == false) return 0;
     if(p>q){   //缺省的情况，例如:9+   ;    --9
-        // printf("Bad expression\n");
+        *can = false;
         return 0;
         // assert(0);
     }
@@ -207,8 +213,12 @@ uint32_t eval(int p,int q){
 		// Single token.
 		// For now this token should be a number(or a reg).
 		// Return the value of the number(or the reg).
-		uint32_t result;
-		if(tokens[p].type == TOKEN_HEX)
+		uint32_t result = 0;
+		if (tokens[p].type == TOKEN_MARK){
+			result = GetMarkValue(tokens[p].str, can);
+			if (*can == false) return 0;
+		}
+		else if(tokens[p].type == TOKEN_HEX)
 			sscanf(tokens[p].str,"%x",&result);
 		else if(tokens[p].type == TOKEN_DEC)
 			sscanf(tokens[p].str,"%d",&result);
@@ -260,137 +270,137 @@ uint32_t eval(int p,int q){
 			// 	op_type = tokens[i].type;
 			// }
 			switch(tokens[i].type){
-                case TOKEN_OR:
-					if(currentTokenPriority>=1){
-						currentTokenPriority=1;
-						op_type=TOKEN_OR;
-						op=i;
-						continue;
-					}
-                case TOKEN_AND:
-					if(currentTokenPriority>=2){
-						currentTokenPriority=2;
-						op_type=TOKEN_AND;
-						op=i;
-						continue;
-					}
-                case TOKEN_NEQ:
-					if(currentTokenPriority>=3){
-						currentTokenPriority=3;
-						op_type=TOKEN_NEQ;
-						op=i;
-						continue;
-					}
-                case TOKEN_EQ:
-					if(currentTokenPriority>=3){
-						currentTokenPriority=3;
-						op_type=TOKEN_EQ;
-						op=i;
-						continue;
-					}
-                case TOKEN_LOE:
-					if(currentTokenPriority>=4){
-						currentTokenPriority=4;
-						op_type=TOKEN_LOE;
-						op=i;
-						continue;
-					}
-                case TOKEN_BOE:
-					if(currentTokenPriority>=4){
-					currentTokenPriority=4;
-					op_type=TOKEN_BOE;
-					op=i;
-					continue;
-					}
-                case TOKEN_L:
-					if(currentTokenPriority>=4){
-					currentTokenPriority=4;
-					op_type=TOKEN_L;
-					op=i;
-					continue;
-					}
-                case TOKEN_B:
-					if(currentTokenPriority>=4){
-						currentTokenPriority=4;
-						op_type=TOKEN_B;
-						op=i;
-						continue;
-						}
-                case TOKEN_RS:
-					if(currentTokenPriority>=5){
-						currentTokenPriority=5;
-						op_type=TOKEN_RS;
-						op=i;
-						continue;
-						}
-                case TOKEN_LS:
-					if(currentTokenPriority>=5){
-						currentTokenPriority=5;
-						op_type=TOKEN_LS;
-						op=i;
-						continue;
-					}
-                case TOKEN_ADD:
-					if(currentTokenPriority>=6){
-						op_type=TOKEN_ADD;
-						currentTokenPriority=6;
-						op=i;
-						continue;
-						}
-                case '-':
-					if(currentTokenPriority>=6){
-						currentTokenPriority=6;
-						op_type='-';
-						op=i;
-						continue;
-					}
-                case TOKEN_DIV:
-					if(currentTokenPriority>=7){
-						currentTokenPriority=7;
-						op_type=TOKEN_DIV;
-						op=i;						
-						continue;
-						}
-					break;
-					case '%':
-					if(currentTokenPriority>=7){
-						currentTokenPriority=7;
-						op_type='%';
-						op=i;						
-						continue;
-						}
-					break;
-				case '*':
-					if(currentTokenPriority>=7){						
-						currentTokenPriority=7;
-						op_type = '*';
-						op=i;
-						continue;
-						}
-                case TOKEN_NOT:
-					if(currentTokenPriority>=8){
-						currentTokenPriority=8;
-						op_type=TOKEN_NOT;
-						op=i;
-						continue;
-					}
-                case TOKEN_NEG:
-					if(currentTokenPriority>=9){
-						currentTokenPriority=9;
-						op_type=TOKEN_NEG;
-						op=i;
-						continue;
-						}
-                case TOKEN_POI:
-					if(currentTokenPriority>=9){
-						currentTokenPriority=9;
-						op_type=TOKEN_POI;
-						op=i;						
-						continue;
-						}
-                default:
-					continue;
-            }
+				case TOKEN_OR:
+							if(currentTokenPriority>=1){
+								currentTokenPriority=1;
+								op_type=TOKEN_OR;
+								op=i;
+								continue;
+							}
+				case TOKEN_AND:
+							if(currentTokenPriority>=2){
+								currentTokenPriority=2;
+								op_type=TOKEN_AND;
+								op=i;
+								continue;
+							}
+				case TOKEN_NEQ:
+							if(currentTokenPriority>=3){
+								currentTokenPriority=3;
+								op_type=TOKEN_NEQ;
+								op=i;
+								continue;
+							}
+				case TOKEN_EQ:
+							if(currentTokenPriority>=3){
+								currentTokenPriority=3;
+								op_type=TOKEN_EQ;
+								op=i;
+								continue;
+							}
+				case TOKEN_LOE:
+							if(currentTokenPriority>=4){
+								currentTokenPriority=4;
+								op_type=TOKEN_LOE;
+								op=i;
+								continue;
+							}
+				case TOKEN_BOE:
+							if(currentTokenPriority>=4){
+							currentTokenPriority=4;
+							op_type=TOKEN_BOE;
+							op=i;
+							continue;
+							}
+				case TOKEN_L:
+							if(currentTokenPriority>=4){
+							currentTokenPriority=4;
+							op_type=TOKEN_L;
+							op=i;
+							continue;
+							}
+				case TOKEN_B:
+							if(currentTokenPriority>=4){
+								currentTokenPriority=4;
+								op_type=TOKEN_B;
+								op=i;
+								continue;
+								}
+				case TOKEN_RS:
+							if(currentTokenPriority>=5){
+								currentTokenPriority=5;
+								op_type=TOKEN_RS;
+								op=i;
+								continue;
+								}
+				case TOKEN_LS:
+							if(currentTokenPriority>=5){
+								currentTokenPriority=5;
+								op_type=TOKEN_LS;
+								op=i;
+								continue;
+							}
+				case TOKEN_ADD:
+							if(currentTokenPriority>=6){
+								op_type=TOKEN_ADD;
+								currentTokenPriority=6;
+								op=i;
+								continue;
+								}
+				case '-':
+							if(currentTokenPriority>=6){
+								currentTokenPriority=6;
+								op_type='-';
+								op=i;
+								continue;
+							}
+				case TOKEN_DIV:
+							if(currentTokenPriority>=7){
+								currentTokenPriority=7;
+								op_type=TOKEN_DIV;
+								op=i;						
+								continue;
+								}
+							break;
+							case '%':
+							if(currentTokenPriority>=7){
+								currentTokenPriority=7;
+								op_type='%';
+								op=i;						
+								continue;
+								}
+							break;
+						case '*':
+							if(currentTokenPriority>=7){						
+								currentTokenPriority=7;
+								op_type = '*';
+								op=i;
+								continue;
+								}
+				case TOKEN_NOT:
+							if(currentTokenPriority>=8){
+								currentTokenPriority=8;
+								op_type=TOKEN_NOT;
+								op=i;
+								continue;
+							}
+				case TOKEN_NEG:
+							if(currentTokenPriority>=9){
+								currentTokenPriority=9;
+								op_type=TOKEN_NEG;
+								op=i;
+								continue;
+								}
+				case TOKEN_POI:
+							if(currentTokenPriority>=9){
+								currentTokenPriority=9;
+								op_type=TOKEN_POI;
+								op=i;						
+								continue;
+								}
+				default:
+							continue;
+			}
 			
 		}
 		//分成子串，进行计算
@@ -412,11 +422,11 @@ uint32_t eval(int p,int q){
             case '-':return val1-val2;
 		    case '*':return val1*val2;
 			case '%':return val1%val2;
-			case TOKEN_DIV:return val1/val2;
+			case TOKEN_DIV: if (val2 == 0) {*can = false; return 0;} else return val1 / val2; 
             case TOKEN_NOT:return !val2;
             case TOKEN_NEG:return -1*val2; 
             case TOKEN_POI:return swaddr_read(val2,4);
-            default:assert(0);
+            default: {*can = false; return 0;}
 		}
 	}
 }
@@ -427,6 +437,7 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 
+	can = success;
 	/* TODO: Insert codes to evaluate the expression. */
 	if(nr_token!=1){  //只有一个符号时没必要区分
 		int i;
