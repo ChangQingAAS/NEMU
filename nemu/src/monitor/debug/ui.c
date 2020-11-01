@@ -39,7 +39,7 @@ static int cmd_x(char *args);
 static int cmd_p(char *args);
 static int cmd_w(char *args);
 static int cmd_d(char *args);
-
+static int cmd_bt(char *args);
 static struct {
         char *name;
         char *description;
@@ -54,9 +54,20 @@ static struct {
         { "x", "Scan the memory", cmd_x },
         {"p","Evaluate a expression", cmd_p},
         { "w", "Set a watchpoint", cmd_w },
-        { "d", "Delete a watchpoint", cmd_d }
-
+        { "d", "Delete a watchpoint", cmd_d },
+        { "bt", "Print stack frame chain", cmd_bt}
 };
+
+typedef struct {
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t args[4];
+}PartOfStackFrame ;
+
+static int cmd_bt(char* args){
+	
+	return 0;
+}
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
@@ -154,19 +165,7 @@ static int cmd_x(char *args) {
                 printf("Unknown command '%s'\n",arg);
                 return 0;  //N=0时无法输出
         }
-        // printf("printNumber is %d\n",printNumber);//测试能否输出N
-        
-		// char* e = strtok(NULL, " ") ;
-		// char* expression = e;
-		// printf("expression is %s\n", expression);
-		// while( e != NULL ) {
-      	// 	printf( "e is %s\n", e );
-    
-      	// 	e = strtok(NULL, " ");
-		//     strcat( expression , e);
-		// 	printf("expression is %s\n", expression);
-
-  		//  }
+       
 	char* expression = strtok(NULL, " ");
         if(expression == NULL)
         {
