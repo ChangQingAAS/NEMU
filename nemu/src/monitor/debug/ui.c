@@ -180,7 +180,7 @@ static int cmd_x(char *args) {
         bool success = true;
         swaddr_t addr = expr(expression, &success);
 	if(!success)
-                {printf("Invalid Command!\n");return 0;}
+                {printf("Wrong Expression!\n");return 0;}
         int i;
         for( i = 0; i < printNumber; i++)
         {
@@ -199,7 +199,7 @@ static int cmd_p(char *args) {
         bool success = true;
         uint32_t computedResult = expr(args, &success);
 	if(!success)
-                {printf("Invalid Command!\n");return 0;}
+                {printf("Wrong Expression!\n");return 0;}
         printf("0x%08x(%d)\n", computedResult, computedResult); 
         return 0;
 }
@@ -209,10 +209,14 @@ static int cmd_w(char *args){
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        bool *success = false;
         WP* newWatchpoint =  new_watchpoint();
         strcpy(newWatchpoint->expression,args);
-        newWatchpoint->old_address = expr(args,success);
+
+        bool success = true;
+        newWatchpoint->old_address = expr(args, &success);
+	if(!success)
+                {printf("Wrong Expression!\n");return 0;}
+
         newWatchpoint->value = swaddr_read(newWatchpoint->old_address,4);
         printf("Set watchpoint NO.%d on 0x%08x\n",newWatchpoint->NO,newWatchpoint->old_address);
         return 0;
