@@ -136,7 +136,7 @@ static bool make_token(char *e)
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -175,6 +175,7 @@ static bool make_token(char *e)
 
 bool check_parentheses(int p, int q)
 {
+	if (*can == false)  return 0;
 	if ((tokens[p].str[0] == '(') && (tokens[q].str[0] == ')'))
 	{
 		int leftBracketCount = 0;
