@@ -175,9 +175,12 @@ static int cmd_x(char *args) {
         }
         //  printf("expression is %s\n",expression);//测试能否输出expr
 
-	bool *success=false;
-	// char *str;
-	swaddr_t addr = expr(expression,success);
+	// bool *success=false;
+	// swaddr_t addr = expr(expression, success);
+        bool success = true;
+        swaddr_t addr = expr(expression, &success);
+	if(!success)
+                {printf("Invalid Command!\n");return 0;}
         int i;
         for( i = 0; i < printNumber; i++)
         {
