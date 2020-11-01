@@ -273,7 +273,6 @@ uint32_t eval(int p, int q)
 		}
 		else
 		{
-			*can = false;
 			return 0;
 		}
 		return result;
@@ -466,7 +465,6 @@ uint32_t eval(int p, int q)
 				}
 			default:
 			{
-				*can = false; 
 				return 0;
 			}
 			}
