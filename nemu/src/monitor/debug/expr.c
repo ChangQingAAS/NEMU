@@ -220,10 +220,10 @@ bool check_parentheses(int p, int q)
 
 uint32_t eval(int p, int q)
 {
-	if (*can == false) return 0;
 	if (p > q)
 	{ //缺省的情况，例如:9+   ;    --9
 		return 0;
+		*can = false;
 		// assert(0);
 	}
 	else if (p == q)
@@ -273,6 +273,11 @@ uint32_t eval(int p, int q)
 					return cpu.gpr[i % 4]._8[i / 4];
 				}
 		}
+		else
+		{
+			*can = false;
+		}
+		
 		return result;
 	}
 	else if (check_parentheses(p, q) == true)
@@ -463,6 +468,7 @@ uint32_t eval(int p, int q)
 					}
 				default:
 				{
+					*can = false;
 					continue;;
 				}
 			}
@@ -516,6 +522,7 @@ uint32_t eval(int p, int q)
 			case TOKEN_POI:
 				return swaddr_read(val2, 4);
 			default: 
+				*can = false;
 				return 0;
 		}
 	}
