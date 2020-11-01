@@ -221,7 +221,6 @@ uint32_t eval(int p, int q)
 {
 	if (p > q)
 	{ //缺省的情况，例如:9+   ;    --9
-		*can = false;
 		return 0;
 		// assert(0);
 	}
