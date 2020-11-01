@@ -244,6 +244,7 @@ static int cmd_bt(char* args){
 		if (name[0] == '\0') break;
 		printf("#%d\t0x%08x\t",cnt++,EBP.ret_addr);
 		printf("%s",name);
+                EBP.prev_ebp = swaddr_read(addr,4);
 		
 	}
 	return 0;
