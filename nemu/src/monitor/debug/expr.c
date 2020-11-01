@@ -200,7 +200,7 @@ uint32_t eval(int p,int q){
 		if (tokens[p].type == TOKEN_MARK){
 			result = GetMarkValue(tokens[p].str, can);
 		printf("hve enter!\n");
-			if (*can == false) return 0;
+			// if (*can == false) return 0;
 		}
 		else if(tokens[p].type == TOKEN_HEX)
 			sscanf(tokens[p].str,"%x",&result);
