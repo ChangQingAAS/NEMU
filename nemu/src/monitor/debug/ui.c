@@ -191,12 +191,15 @@ static int cmd_x(char *args) {
 }
 
 static int cmd_p(char *args) {
-        bool *success = false ;
         if(args == NULL){
                 printf("Lack of parameter!\n");
                 return 0;
         }
-        uint32_t computedResult = expr(args, success);
+        // uint32_t computedResult = expr(args, success);
+        bool success = true;
+        uint32_t computedResult = expr(args, &success);
+	if(!success)
+                {printf("Invalid Command!\n");return 0;}
         printf("0x%08x(%d)\n", computedResult, computedResult); 
         return 0;
 }
