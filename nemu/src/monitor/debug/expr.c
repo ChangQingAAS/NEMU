@@ -77,20 +77,6 @@ uint32_t GetMarkValue(char *str,bool *success);
 
 static regex_t re[NR_REGEX];
 
-// char *deleteSpaceInString(char *str){
-// 		char *p=str;
-// 		int i=0;
-// 		while(*p)
-// 		{
-// 			if(*p!=' ')
-// 			str[i++] = *p;
-// 			p++;
-// 		}
-// 		str[i]='\0';
-// 		printf("after delete space, expression is %s\n",p);
-// 		return p;
-// }
-
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
  */
@@ -152,7 +138,7 @@ static bool make_token(char *e) {
 				strncpy(tokens[nr_token].str, substr_start, substr_len);
 
 				tokens[nr_token].type = rules[i].token_type;
-				// Log("Save in type=%d, str=%s",tokens[nr_token].type,tokens[nr_token].str);
+				Log("Save in type=%d, str=%s",tokens[nr_token].type,tokens[nr_token].str);
 				nr_token = nr_token + 1;
 				
 				break;
