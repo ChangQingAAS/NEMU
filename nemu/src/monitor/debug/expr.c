@@ -275,7 +275,7 @@ uint32_t eval(int p, int q)
 		}
 		else
 		{
-			// *can = false;
+			*can = false;
 		}
 		
 		return result;
