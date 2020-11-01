@@ -271,10 +271,6 @@ uint32_t eval(int p, int q)
 					return cpu.gpr[i % 4]._8[i / 4];
 				}
 		}
-		else
-		{
-			return 0;
-		}
 		return result;
 	}
 	else if (check_parentheses(p, q) == true)
@@ -317,156 +313,156 @@ uint32_t eval(int p, int q)
 			// }
 			switch (tokens[i].type)
 			{
-			case TOKEN_OR:
-				if (currentTokenPriority >= 1)
+				case TOKEN_OR:
+					if (currentTokenPriority >= 1)
+					{
+						currentTokenPriority = 1;
+						op_type = TOKEN_OR;
+						op = i;
+						continue;
+					}
+				case TOKEN_AND:
+					if (currentTokenPriority >= 2)
+					{
+						currentTokenPriority = 2;
+						op_type = TOKEN_AND;
+						op = i;
+						continue;
+					}
+				case TOKEN_NEQ:
+					if (currentTokenPriority >= 3)
+					{
+						currentTokenPriority = 3;
+						op_type = TOKEN_NEQ;
+						op = i;
+						continue;
+					}
+				case TOKEN_EQ:
+					if (currentTokenPriority >= 3)
+					{
+						currentTokenPriority = 3;
+						op_type = TOKEN_EQ;
+						op = i;
+						continue;
+					}
+				case TOKEN_LOE:
+					if (currentTokenPriority >= 4)
+					{
+						currentTokenPriority = 4;
+						op_type = TOKEN_LOE;
+						op = i;
+						continue;
+					}
+				case TOKEN_BOE:
+					if (currentTokenPriority >= 4)
+					{
+						currentTokenPriority = 4;
+						op_type = TOKEN_BOE;
+						op = i;
+						continue;
+					}
+				case TOKEN_L:
+					if (currentTokenPriority >= 4)
+					{
+						currentTokenPriority = 4;
+						op_type = TOKEN_L;
+						op = i;
+						continue;
+					}
+				case TOKEN_B:
+					if (currentTokenPriority >= 4)
+					{
+						currentTokenPriority = 4;
+						op_type = TOKEN_B;
+						op = i;
+						continue;
+					}
+				case TOKEN_RS:
+					if (currentTokenPriority >= 5)
+					{
+						currentTokenPriority = 5;
+						op_type = TOKEN_RS;
+						op = i;
+						continue;
+					}
+				case TOKEN_LS:
+					if (currentTokenPriority >= 5)
+					{
+						currentTokenPriority = 5;
+						op_type = TOKEN_LS;
+						op = i;
+						continue;
+					}
+				case TOKEN_ADD:
+					if (currentTokenPriority >= 6)
+					{
+						op_type = TOKEN_ADD;
+						currentTokenPriority = 6;
+						op = i;
+						continue;
+					}
+				case '-':
+					if (currentTokenPriority >= 6)
+					{
+						currentTokenPriority = 6;
+						op_type = '-';
+						op = i;
+						continue;
+					}
+				case TOKEN_DIV:
+					if (currentTokenPriority >= 7)
+					{
+						currentTokenPriority = 7;
+						op_type = TOKEN_DIV;
+						op = i;
+						continue;
+					}
+					break;
+				case '%':
+					if (currentTokenPriority >= 7)
+					{
+						currentTokenPriority = 7;
+						op_type = '%';
+						op = i;
+						continue;
+					}
+					break;
+				case '*':
+					if (currentTokenPriority >= 7)
+					{
+						currentTokenPriority = 7;
+						op_type = '*';
+						op = i;
+						continue;
+					}
+				case TOKEN_NOT:
+					if (currentTokenPriority >= 8)
+					{
+						currentTokenPriority = 8;
+						op_type = TOKEN_NOT;
+						op = i;
+						continue;
+					}
+				case TOKEN_NEG:
+					if (currentTokenPriority >= 9)
+					{
+						currentTokenPriority = 9;
+						op_type = TOKEN_NEG;
+						op = i;
+						continue;
+					}
+				case TOKEN_POI:
+					if (currentTokenPriority >= 9)
+					{
+						currentTokenPriority = 9;
+						op_type = TOKEN_POI;
+						op = i;
+						continue;
+					}
+				default:
 				{
-					currentTokenPriority = 1;
-					op_type = TOKEN_OR;
-					op = i;
-					continue;
+					continue;;
 				}
-			case TOKEN_AND:
-				if (currentTokenPriority >= 2)
-				{
-					currentTokenPriority = 2;
-					op_type = TOKEN_AND;
-					op = i;
-					continue;
-				}
-			case TOKEN_NEQ:
-				if (currentTokenPriority >= 3)
-				{
-					currentTokenPriority = 3;
-					op_type = TOKEN_NEQ;
-					op = i;
-					continue;
-				}
-			case TOKEN_EQ:
-				if (currentTokenPriority >= 3)
-				{
-					currentTokenPriority = 3;
-					op_type = TOKEN_EQ;
-					op = i;
-					continue;
-				}
-			case TOKEN_LOE:
-				if (currentTokenPriority >= 4)
-				{
-					currentTokenPriority = 4;
-					op_type = TOKEN_LOE;
-					op = i;
-					continue;
-				}
-			case TOKEN_BOE:
-				if (currentTokenPriority >= 4)
-				{
-					currentTokenPriority = 4;
-					op_type = TOKEN_BOE;
-					op = i;
-					continue;
-				}
-			case TOKEN_L:
-				if (currentTokenPriority >= 4)
-				{
-					currentTokenPriority = 4;
-					op_type = TOKEN_L;
-					op = i;
-					continue;
-				}
-			case TOKEN_B:
-				if (currentTokenPriority >= 4)
-				{
-					currentTokenPriority = 4;
-					op_type = TOKEN_B;
-					op = i;
-					continue;
-				}
-			case TOKEN_RS:
-				if (currentTokenPriority >= 5)
-				{
-					currentTokenPriority = 5;
-					op_type = TOKEN_RS;
-					op = i;
-					continue;
-				}
-			case TOKEN_LS:
-				if (currentTokenPriority >= 5)
-				{
-					currentTokenPriority = 5;
-					op_type = TOKEN_LS;
-					op = i;
-					continue;
-				}
-			case TOKEN_ADD:
-				if (currentTokenPriority >= 6)
-				{
-					op_type = TOKEN_ADD;
-					currentTokenPriority = 6;
-					op = i;
-					continue;
-				}
-			case '-':
-				if (currentTokenPriority >= 6)
-				{
-					currentTokenPriority = 6;
-					op_type = '-';
-					op = i;
-					continue;
-				}
-			case TOKEN_DIV:
-				if (currentTokenPriority >= 7)
-				{
-					currentTokenPriority = 7;
-					op_type = TOKEN_DIV;
-					op = i;
-					continue;
-				}
-				break;
-			case '%':
-				if (currentTokenPriority >= 7)
-				{
-					currentTokenPriority = 7;
-					op_type = '%';
-					op = i;
-					continue;
-				}
-				break;
-			case '*':
-				if (currentTokenPriority >= 7)
-				{
-					currentTokenPriority = 7;
-					op_type = '*';
-					op = i;
-					continue;
-				}
-			case TOKEN_NOT:
-				if (currentTokenPriority >= 8)
-				{
-					currentTokenPriority = 8;
-					op_type = TOKEN_NOT;
-					op = i;
-					continue;
-				}
-			case TOKEN_NEG:
-				if (currentTokenPriority >= 9)
-				{
-					currentTokenPriority = 9;
-					op_type = TOKEN_NEG;
-					op = i;
-					continue;
-				}
-			case TOKEN_POI:
-				if (currentTokenPriority >= 9)
-				{
-					currentTokenPriority = 9;
-					op_type = TOKEN_POI;
-					op = i;
-					continue;
-				}
-			default:
-			{
-				return 0;
-			}
 			}
 		}
 		//分成子串，进行计算
@@ -475,50 +471,51 @@ uint32_t eval(int p, int q)
 		// printf("current op_type is %d\n",op_type);
 		switch (op_type)
 		{
-		case TOKEN_OR:
-			return val1 || val2;
-		case TOKEN_AND:
-			return val1 && val2;
-		case TOKEN_NEQ:
-			return val1 != val2;
-		case TOKEN_EQ:
-			return val1 == val2;
-		case TOKEN_LOE:
-			return val1 <= val2;
-		case TOKEN_BOE:
-			return val1 >= val2;
-		case TOKEN_L:
-			return val1 < val2;
-		case TOKEN_B:
-			return val1 > val2;
-		case TOKEN_RS:
-			return val1 >> val2;
-		case TOKEN_LS:
-			return val1 << val2;
-		case TOKEN_ADD:
-			return val1 + val2;
-		case '-':
-			return val1 - val2;
-		case '*':
-			return val1 * val2;
-		case '%':
-			return val1 % val2;
-		case TOKEN_DIV:
-			if (val2 == 0)
-			{
-				*can = false;
+			case TOKEN_OR:
+				return val1 || val2;
+			case TOKEN_AND:
+				return val1 && val2;
+			case TOKEN_NEQ:
+				return val1 != val2;
+			case TOKEN_EQ:
+				return val1 == val2;
+			case TOKEN_LOE:
+				return val1 <= val2;
+			case TOKEN_BOE:
+				return val1 >= val2;
+			case TOKEN_L:
+				return val1 < val2;
+			case TOKEN_B:
+				return val1 > val2;
+			case TOKEN_RS:
+				return val1 >> val2;
+			case TOKEN_LS:
+				return val1 << val2;
+			case TOKEN_ADD:
+				return val1 + val2;
+			case '-':
+				return val1 - val2;
+			case '*':
+				return val1 * val2;
+			case '%':
+				return val1 % val2;
+			case TOKEN_DIV:
+				if (val2 == 0)
+				{
+					*can = false;
+					return 0;
+				}
+				else
+					return val1 / val2;
+			case TOKEN_NOT:
+				return !val2;
+			case TOKEN_NEG:
+				return -1 * val2;
+			case TOKEN_POI:
+				return swaddr_read(val2, 4);
+			default: 
 				return 0;
-			}
-			else
-				return val1 / val2;
-		case TOKEN_NOT:
-			return !val2;
-		case TOKEN_NEG:
-			return -1 * val2;
-		case TOKEN_POI:
-			return swaddr_read(val2, 4);
-		default: 
-			return 0;}
+		}
 	}
 }
 
