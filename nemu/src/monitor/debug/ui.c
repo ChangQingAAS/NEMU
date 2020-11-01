@@ -64,10 +64,6 @@ typedef struct {
 	uint32_t args[4];
 }PartOfStackFrame ;
 
-static int cmd_bt(char* args){
-	
-	return 0;
-}
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
@@ -230,6 +226,29 @@ static int cmd_d(char *args){
         free_watchpoint(watchpointNO);
         return 0;
 }
+
+static int cmd_bt(char* args){
+	if (args != NULL){
+		printf("Wrong Command!");
+		return 0;
+	}
+	PartOfStackFrame EBP;
+	char name[32];
+	int cnt = 0;
+	EBP.ret_addr = cpu.eip;
+	swaddr_t addr = cpu.ebp;
+	// printf("%d\n",addr);
+	// int i;
+	while (addr){
+		GetFunctionAddr(EBP.ret_addr,name);
+		if (name[0] == '\0') break;
+		printf("#%d\t0x%08x\t",cnt++,EBP.ret_addr);
+		printf("%s",name);
+		
+	}
+	return 0;
+}
+
 void ui_mainloop() {
         while(1) {
                 char *str = rl_gets();
