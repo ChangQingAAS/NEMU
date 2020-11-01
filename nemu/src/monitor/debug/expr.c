@@ -42,7 +42,7 @@ static struct rule {
   	// {"0|[1-9][0-9]*", TOKEN_DEC},
 	{"[0-9]+", TOKEN_DEC},
   	{"\\$(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip|ax|cx|dx|bx|sp|bp|si|di|al|cl|dl|bl|ah|ch|dh|bh)", TOKEN_REG},
-
+	{"\\b[a-zA-Z_0-9]+", TOKEN_MARK},
 	
   	{"\\+", TOKEN_ADD},         // 使用单引号
   	{"-", '-'},        //45
@@ -69,7 +69,6 @@ static struct rule {
   	{">", TOKEN_L},
   	{"<=", TOKEN_LOE},
   	{"<", TOKEN_B},
-	{"[a-zA-Z][a-zA-Z0-9_]+", TOKEN_MARK},
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
