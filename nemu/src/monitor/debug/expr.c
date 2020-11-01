@@ -219,8 +219,10 @@ bool check_parentheses(int p, int q)
 
 uint32_t eval(int p, int q)
 {
+	if (*can == false) return 0;
 	if (p > q)
 	{ //缺省的情况，例如:9+   ;    --9
+		*can = false;
 		return 0;
 		// assert(0);
 	}
@@ -233,7 +235,7 @@ uint32_t eval(int p, int q)
 		if (tokens[p].type == TOKEN_MARK)
 		{
 			result = GetMarkValue(tokens[p].str, can);
-			printf("have enter!\n");
+			// printf("have enter!\n");
 			return result;
 			if (*can == false)
 				return 0;
@@ -272,7 +274,10 @@ uint32_t eval(int p, int q)
 				}
 		}
 		else
-			assert(0);
+		{
+			*can = false;
+			return 0;
+		}
 		return result;
 	}
 	else if (check_parentheses(p, q) == true)
@@ -462,7 +467,10 @@ uint32_t eval(int p, int q)
 					continue;
 				}
 			default:
-				continue;
+			{
+				*can = false; 
+				return 0;
+			}
 			}
 		}
 		//分成子串，进行计算
@@ -513,9 +521,9 @@ uint32_t eval(int p, int q)
 			return -1 * val2;
 		case TOKEN_POI:
 			return swaddr_read(val2, 4);
-		default:
-			return 0;
-		}
+		default: 
+			*can = false; 
+			return 0;}
 	}
 }
 
@@ -527,7 +535,7 @@ uint32_t expr(char *e, bool *success)
 		return 0;
 	}
 
-	// can = success;
+	can = success;
 	/* TODO: Insert codes to evaluate the expression. */
 	if (nr_token != 1)
 	{ //只有一个符号时没必要区分
