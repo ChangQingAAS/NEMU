@@ -238,14 +238,21 @@ static int cmd_bt(char* args){
 	EBP.ret_addr = cpu.eip;
 	swaddr_t addr = cpu.ebp;
 	// printf("%d\n",addr);
-	// int i;
+	int i;
 	while (addr){
 		GetFunctionAddr(EBP.ret_addr,name);
 		if (name[0] == '\0') break;
 		printf("#%d\t0x%08x\t",cnt++,EBP.ret_addr);
 		printf("%s",name);
-                EBP.prev_ebp = swaddr_read(addr,4);
-		
+		EBP.prev_ebp = swaddr_read(addr,4);
+		EBP.ret_addr = swaddr_read(addr + 4, 4);
+		printf("(");
+		for (i = 0;i < 4;i ++){
+			EBP.args[i] = swaddr_read(addr + 8 + i * 4, 4);
+			printf("0x%x",EBP.args[i]);
+			if (i == 3) printf(")\n");else printf(", ");
+		}
+		addr = EBP.prev_ebp;
 	}
 	return 0;
 }
