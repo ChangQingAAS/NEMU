@@ -468,7 +468,7 @@ uint32_t eval(int p, int q)
 					}
 				default:
 				{
-					*can = false;
+					// *can = false;
 					continue;;
 				}
 			}
