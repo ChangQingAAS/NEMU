@@ -522,7 +522,7 @@ uint32_t eval(int p, int q)
 			case TOKEN_POI:
 				return swaddr_read(val2, 4);
 			default: 
-				*can = false;
+				// *can = false;
 				return 0;
 		}
 	}
