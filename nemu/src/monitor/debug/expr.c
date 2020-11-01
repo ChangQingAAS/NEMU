@@ -199,6 +199,7 @@ uint32_t eval(int p,int q){
 		uint32_t result = 0;
 		if (tokens[p].type == TOKEN_MARK){
 			result = GetMarkValue(tokens[p].str, can);
+		printf("hve enter!\n");
 			if (*can == false) return 0;
 		}
 		else if(tokens[p].type == TOKEN_HEX)
@@ -206,7 +207,7 @@ uint32_t eval(int p,int q){
 		else if(tokens[p].type == TOKEN_DEC)
 			sscanf(tokens[p].str,"%d",&result);
 		else if(tokens[p].type == TOKEN_REG){
-            char regName[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
+            	char regName[3] = {tokens[p].str[1],tokens[p].str[2],tokens[p].str[3]};
 			if(strcmp(regName,"eip"))return cpu.eip;
 
             int i;
