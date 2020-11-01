@@ -242,7 +242,7 @@ static int cmd_bt(char* args){
 	while (addr){
 		GetFunctionAddr(EBP.ret_addr,name);
 		if (name[0] == '\0') break;
-		printf("#%d\t0x%08x\t",cnt++,EBP.ret_addr);
+		printf("Number: %d\t0x%08x\t",cnt++,EBP.ret_addr);
 		printf("%s",name);
 		EBP.prev_ebp = swaddr_read(addr,4);
 		EBP.ret_addr = swaddr_read(addr + 4, 4);
