@@ -35,6 +35,7 @@ make_instr_helper(i_rm2r)
 
 make_helper(concat(imul_rm2a_, SUFFIX)) {
 	int len = concat(decode_rm_, SUFFIX)(eip + 1);
+	//拓展后右移
 	int64_t src = (DATA_TYPE_S)op_src->val;
 	int64_t result = (DATA_TYPE_S)REG(R_EAX) * src;
 #if DATA_BYTE == 1
