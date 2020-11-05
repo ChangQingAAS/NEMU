@@ -63,9 +63,9 @@ void cpu_exec(volatile uint32_t n) {
 		int instr_len = exec(cpu.eip);
 
 		cpu.eip += instr_len;
-		printf("eip is %d\n", cpu.eip);//
-		printf("ebp is %d\n", cpu.ebp);//
-		printf("esp is %d\n\n", cpu.esp);//
+		printf("eip is %x\n", cpu.eip);//
+		printf("ebp is %x\n", cpu.ebp);//
+		printf("esp is %x\n\n", cpu.esp);//
 		
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
