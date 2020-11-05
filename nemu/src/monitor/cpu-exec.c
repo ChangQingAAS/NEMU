@@ -65,8 +65,8 @@ void cpu_exec(volatile uint32_t n) {
 		cpu.eip += instr_len;
 		printf("eip is %d\n", cpu.eip);//
 		printf("ebp is %d\n", cpu.ebp);//
-		printf("esp is %d\n", cpu.esp);//
-
+		printf("esp is %d\n\n", cpu.esp);//
+		
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
 		strcat(asm_buf, assembly);
