@@ -2,7 +2,8 @@
 
 #define instr sar
 
-static void do_execute () {
+static void do_execute()
+{
 	DATA_TYPE src = op_src->val;
 	DATA_TYPE_S dest = op_dest->val;
 
@@ -14,12 +15,12 @@ static void do_execute () {
 	cpu.CF = 0;
 	cpu.OF = 0;
 	cpu.ZF = !ret;
-    cpu.SF = ret >> ((DATA_BYTE << 3) - 1);
+	cpu.SF = ret >> ((DATA_BYTE << 3) - 1);
 	ret ^= ret >> 4;
-    ret ^= ret >> 2;
-    ret ^= ret >> 1;
-    ret &= 1;
-    cpu.PF = !ret;
+	ret ^= ret >> 2;
+	ret ^= ret >> 1;
+	ret &= 1;
+	cpu.PF = !ret;
 	/* There is no need to update EFLAGS, since no other instructions 
 	 * in PA will test the flags updated by this instruction.
 	 */
@@ -28,7 +29,7 @@ static void do_execute () {
 }
 
 make_instr_helper(rm_1)
-make_instr_helper(rm_cl)
-make_instr_helper(rm_imm)
+    make_instr_helper(rm_cl)
+	make_instr_helper(rm_imm)
 
 #include "cpu/exec/template-end.h"
