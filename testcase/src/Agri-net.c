@@ -49,7 +49,8 @@ int main()
                         for (j = 1; j <= n; j++)
                                 scanf("%d", &e[i][j]);
                 Prim();
-                printf("%d\n", sum);
+   	 	nemu_assert(sum != 0);
+    		HIT_GOOD_TRAP;
         }
         return 0;
 }
